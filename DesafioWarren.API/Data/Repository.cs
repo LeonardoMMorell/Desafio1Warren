@@ -34,20 +34,18 @@ namespace DesafioWarren.API.Data
 
         public void update(Cadastro cadastro, Cadastro cdtUpdated)
         {
-            cdtUpdated.Id = cdtUpdated.Id;
-            cdtUpdated.fullName = cdtUpdated.fullName;
-            cdtUpdated.email = cdtUpdated.email;
-            cdtUpdated.emailConfirmation = cdtUpdated.emailConfirmation;
-            cdtUpdated.cpf = cdtUpdated.cpf;
-            cdtUpdated.emailSms = cdtUpdated.emailSms;
-            cdtUpdated.cellphone = cdtUpdated.cellphone;
-            cdtUpdated.cellphone = cdtUpdated.cellphone;
-            cdtUpdated.country = cdtUpdated.country;
-            cdtUpdated.city = cdtUpdated.city;
-            cdtUpdated.address = cdtUpdated.address;
-            cdtUpdated.postalCode = cdtUpdated.postalCode;
-            cdtUpdated.whatsapp = cdtUpdated.whatsapp;
-
+            cdtUpdated.fullName = cadastro.fullName;
+            cdtUpdated.email = cadastro.email;
+            cdtUpdated.emailConfirmation = cadastro.emailConfirmation;
+            cdtUpdated.cpf = cadastro.cpf;
+            cdtUpdated.emailSms = cadastro.emailSms;
+            cdtUpdated.cellphone = cadastro.cellphone;
+            cdtUpdated.cellphone = cadastro.cellphone;
+            cdtUpdated.country = cadastro.country;
+            cdtUpdated.city = cadastro.city;
+            cdtUpdated.address = cadastro.address;
+            cdtUpdated.postalCode = cadastro.postalCode;
+            cdtUpdated.whatsapp = cadastro.whatsapp;
         }
 
         public void deleteCdt(Cadastro cadastro)

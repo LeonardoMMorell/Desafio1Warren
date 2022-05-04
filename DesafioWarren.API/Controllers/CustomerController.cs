@@ -143,16 +143,20 @@ namespace DesafioWarren.API.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, Cadastro cadastro)
         {
-            var cdt = _repository.Cadastros.FindAll(c => c.Id == id);
+            var cdt = _repository.Cadastros.FirstOrDefault(c => c.Id == id);
             if (cdt == null) return NotFound("Registration not found");
+            _repository.update(cadastro, cdt);
             return Ok(cadastro);
         }
 
         [HttpDelete("{id}")]
+
         public IActionResult Delete(int id, Cadastro cadastro)
         {
-            _repository.deleteCdt(cadastro);
-            return Ok("Registration successfully removed");
+            var cdt = _repository.Cadastros.FirstOrDefault(c => c.Id == id);
+            if (cdt == null) return NotFound("Registration not found");
+            _repository.deleteCdt(cdt);
+            return Ok("Customer successfully deleted");
         }
     }
 }
