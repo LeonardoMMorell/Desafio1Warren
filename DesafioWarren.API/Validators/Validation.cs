@@ -1,73 +1,65 @@
 ﻿using DesafioWarren.API.Models;
+using DesafioWarren.API.Validators.ValidationExtensions;
 using FluentValidation;
 
 namespace DesafioWarren.API.Validators
 {
-    public class Validation : AbstractValidator<Cadastro>
+    public class Validation : AbstractValidator<Customer>
     {
         public Validation()
         {
-            RuleFor(v => v.fullName).NotEmpty()
+            RuleFor(x => x.FullName)
+                .NotEmpty()
                 .WithMessage("Full name must not be null or empty")
                 .MinimumLength(10)
                 .WithMessage("Full name lenght must  be more than 10 ");
 
-            RuleFor(v => v.email).NotEmpty()
-                .WithMessage("Email must not be null or empty")
-                .EmailAddress()
-                .WithMessage("Enter a valid email");
+            RuleFor(x => x)
+                .NotEmpty()
+                .Must(x => x.Email == x.EmailConfirmation)
+                .WithMessage("Invalid email and email confirmation, please try again");
 
-            RuleFor(v => v.emailConfirmation).NotEmpty()
-                .WithMessage("EmailConfirmation must not be null or empty")
-                .EmailAddress()
-                .WithMessage("Enter a valid email");
-
-            RuleFor(v => v.cpf).NotEmpty()
+            RuleFor(x => x.Cpf)
+                .NotEmpty()
                 .WithMessage("CPF must not be null or empty")
-                .Must(c => c.IsValidDocument())
+                .Must(x => x.IsValidDocument())
                 .Length(14)
-                .WithMessage("Enter a valid CPF");
+                .WithMessage("The length of the CPF must be a maximum of 14 characters");
 
-            RuleFor(v => v.cellphone).NotEmpty()
-
+            RuleFor(x => x.Cellphone)
+                .NotEmpty()
                 .WithMessage("Cellphone must not be null or empty")
-                .Must(c => c.IsValidCellPhone())
+                .Must(x => x.IsValidCellPhone())
                 .MaximumLength(11)
-                .WithMessage("Put a valid number");
+                .WithMessage("CellPhone length must be a maximum of 11 numbers");
 
-            RuleFor(v => v.birthdate).NotEmpty()
+            RuleFor(x => x.Birthdate)
+                .NotEmpty()
                 .WithMessage("Birth date must not be null or empty")
                 .LessThan(DateTime.Now.Date)
                 .WithMessage("Birth date must be older than today");
 
-            RuleFor(v => v.country).NotEmpty()
+            RuleFor(x => x.Country)
+                .NotEmpty()
                 .WithMessage("Country must not be null or empty");
 
-            RuleFor(v => v.city).NotEmpty()
+            RuleFor(x => x.City)
+                .NotEmpty()
                 .WithMessage("City must not be null or empty");
 
-            RuleFor(v => v.postalCode).NotEmpty()
-                .Must(c => c.IsValidPostalCode())
+            RuleFor(x => x.PostalCode)
+                .NotEmpty()
+                .Must(x => x.IsValidPostalCode())
                 .MaximumLength(8)
-                .WithMessage("The maximum is 8");
+                .WithMessage("The length of the Postal Code must be a maximum of 8 numbers");
 
-            RuleFor(v => v.address).NotEmpty()
+            RuleFor(x => x.Address)
+                .NotEmpty()
                 .WithMessage("Address must not be null or empty");
 
-            RuleFor(v => v.number).NotEmpty()
+            RuleFor(x => x.Number)
+                .NotEmpty()
                 .WithMessage("Number must not be null or empty");
-    
-        }
-        public static bool ValidateEmail(Cadastro cdt)
-        {
-            if (cdt.email == cdt.emailConfirmation)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
     }
 }

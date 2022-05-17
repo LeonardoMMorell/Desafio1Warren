@@ -6,14 +6,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers()
+// Add services to the container.
+
+builder.Services
+    .AddControllers()
     .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<Validation>());
+
+builder.Services.AddMemoryCache();
+builder.Services.AddSingleton<ICustomerServices, Repository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddMemoryCache();
-builder.Services.AddSingleton<IRepository, Repository>();
 
 var app = builder.Build();
 
@@ -25,5 +28,4 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
-
 app.Run();
