@@ -1,162 +1,107 @@
 ﻿using DesafioWarren.API.Data;
 using DesafioWarren.API.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using DesafioWarren.API.Validators;
 
 namespace DesafioWarren.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController : ControllerBase
-
+    public class CustomersController : ControllerBase
     {
-        public readonly IRepository _repository;
-        public CustomerController(IRepository repository)
+        private readonly ICustomerServices _repository;
+        public CustomersController(ICustomerServices repository)
         {
             _repository = repository;
         }
 
-
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_repository.Cadastros);
+            return Ok(_repository.CustomersClients);
         }
 
         [HttpGet("{id:int}")]
         public IActionResult GetById(int id)
         {
-            var cadastro = _repository.Cadastros.FindAll(c => c.Id == id);
-            if (cadastro.Capacity == 0) return NotFound("The client was not found");
-            return Ok(cadastro);
+            return SafeAction(() =>
+            {
+                var IdProtection = _repository.CustomersClients.Find(x => x.Id.Equals(id));
+                if (IdProtection is null) return NotFound($"Error 404 // Client not found! for id: {id}");
+                return Ok(IdProtection);
+            });
         }
 
-        [HttpGet("getByfullName/{fullname}")]
-        public IActionResult GetByfullname(string fullName)
+        [HttpGet("getByFullName/{fullname}")]
+        public IActionResult GetByFullName(string fullName)
         {
-            var cadastro = _repository.Cadastros.FindAll(c => c.fullName == fullName);
-            if (cadastro.Count == 0) return NotFound("The client was not found");
-            return Ok(cadastro);
+            return SafeAction(() =>
+            {
+                var FullNameProtection = _repository.GetAll(x => x.FullName == fullName);
+                if (FullNameProtection.Capacity == 0) return NotFound($"Error 404 // Client not found! For FullName: {fullName}");
+                return Ok(FullNameProtection);
+            });
         }
 
-        [HttpGet("getByemail/{email}")]
-        public IActionResult GetByemail(string email)
+        [HttpGet("getByEmail/{email}")]
+        public IActionResult GetByEmail(string email)
         {
-            var cadastro = _repository.Cadastros.FindAll(c => c.email == email);
-            if (cadastro.Capacity == 0) return NotFound("The client was not found");
-            return Ok(cadastro);
+            return SafeAction(() =>
+            {
+                var EmailProtection = _repository.GetAll(x => x.Email == email);
+                if (EmailProtection.Capacity == 0) return NotFound($"Error 404 // Client not found! For Email: {email}");
+                return Ok(EmailProtection);
+            });
         }
 
-
-        [HttpGet("getBycpf/{cpf}")]
-        public IActionResult GetBycpf(string cpf)
+        [HttpGet("getByCpf/{cpf}")]
+        public IActionResult GetByCpf(string cpf)
         {
-            var cadastro = _repository.Cadastros.FindAll(c => c.cpf == cpf);
-            if (cadastro.Capacity == 0) return NotFound("The client was not found");
-            return Ok(cadastro);
-        }
-
-        [HttpGet("getBycellphone/{cellphone}")]
-        public IActionResult GetBycellPhone(string cellphone)
-        {
-            var cadastro = _repository.Cadastros.FindAll(c => c.cellphone == cellphone);
-            if (cadastro.Capacity == 0) return NotFound("The client was not found");
-            return Ok(cadastro);
-        }
-
-        [HttpGet("getBybirthdate/{birthdate}")]
-        public IActionResult GetBybirthdate(DateTime birthdate)
-        {
-            var cadastro = _repository.Cadastros.FindAll(c => c.birthdate == birthdate);
-            if (cadastro.Capacity == 0) return NotFound("The client was not found");
-            return Ok(cadastro);
-        }
-
-        [HttpGet("getByemailSms/{emailSms}")]
-        public IActionResult GetByemailSms(bool emailSms)
-        {
-            var cadastro = _repository.Cadastros.FindAll(c => c.emailSms == emailSms);
-            if (cadastro.Capacity == 0) return NotFound("The client was not found");
-            return Ok(cadastro);
-        }
-
-        [HttpGet("getBywhatsapp/{whatsapp}")]
-        public IActionResult GetBywhatsapp(bool whatsapp)
-        {
-            var cadastro = _repository.Cadastros.FindAll(c => c.whatsapp == whatsapp);
-            if (cadastro.Capacity == 0) return NotFound("The client was not found");
-            return Ok(cadastro);
-        }
-
-        [HttpGet("getBycountry/{country}")]
-        public IActionResult GetBycountry(string country)
-        {
-            var cadastro = _repository.Cadastros.FindAll(c => c.country == country);
-            if (cadastro.Capacity == 0) return NotFound("The client was not found");
-            return Ok(cadastro);
-        }
-
-        [HttpGet("getBycity/{city}")]
-        public IActionResult GetBycity(string city)
-        {
-            var cadastro = _repository.Cadastros.FindAll(c => c.city == city);
-            if (cadastro.Capacity == 0) return NotFound("The client was not found");
-            return Ok(cadastro);
-        }
-
-        [HttpGet("getBypostalCode/{postalCode}")]
-        public IActionResult GetBypostalCode(string postalCode)
-        {
-            var cadastro = _repository.Cadastros.FindAll(c => c.postalCode == postalCode);
-            if (cadastro.Capacity == 0) return NotFound("The client was not found");
-            return Ok(cadastro);
-        }
-
-        [HttpGet("getByaddress/{address}")]
-        public IActionResult GetByaddress(string address)
-        {
-            var cadastro = _repository.Cadastros.FindAll(c => c.address == address);
-            if (cadastro.Capacity == 0) return NotFound("The client was not found");
-            return Ok(cadastro);
-        }
-
-        [HttpGet("getBynumber/{number}")]
-        public IActionResult GetBynumber(int number)
-        {
-            var cadastro = _repository.Cadastros.FindAll(c => c.number == number);
-            if (cadastro.Capacity == 0) return NotFound("The client was not found");
-            return Ok(cadastro);
+            return SafeAction(() =>
+            {
+                var CpfProtection = _repository.GetAll(x => x.Cpf == cpf);
+                if (CpfProtection.Capacity == 0) return NotFound($"Error 404 // Client not found! For CPF: {cpf}");
+                return Ok(CpfProtection);
+            });
         }
 
         [HttpPost]
-        public IActionResult Post(Cadastro cadastro)
+        public IActionResult Post(Customer customer)
         {
-            if (Validation.ValidateEmail(cadastro))
-            {
-                _repository.add(cadastro);
-                return Created("~api/customer", cadastro);
-            }
-            return BadRequest("Email incorrect");
+            _repository.Add(customer);
+            return Created("~api/customer", "Your registration was successfully created, ID: " + customer.Id);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Cadastro cadastro)
+        public IActionResult Put(int id, Customer customer)
         {
-            var cdt = _repository.Cadastros.FirstOrDefault(c => c.Id == id);
-            if (cdt == null) return NotFound("Registration not found");
-            _repository.update(cadastro, cdt);
-            return Ok(cadastro);
+            var CustomerPut = _repository.CustomersClients.FirstOrDefault(c => c.Id == id);
+            if (CustomerPut == null) return NotFound($"Error: 404 // There is no such ID{id} in the list");
+            _repository.Update(CustomerPut, customer);
+            return Ok(customer);
         }
 
         [HttpDelete("{id}")]
-
-        public IActionResult Delete(int id, Cadastro cadastro)
+        public IActionResult Delete(int id, Customer customer)
         {
-            var cdt = _repository.Cadastros.FirstOrDefault(c => c.Id == id);
-            if (cdt == null) return NotFound("Registration not found");
-            _repository.deleteCdt(cdt);
-            return Ok("Customer successfully deleted");
+            var VariableDelete = _repository.CustomersClients.FirstOrDefault(c => c.Id == id);
+            if (VariableDelete == null) return NotFound($"Error: 404 // This ID{id} is not in the list");
+            _repository.DeleteCustomer(VariableDelete);
+            return Ok("The customer was successfully deleted");
+        }
+        private IActionResult SafeAction(Func<IActionResult> action)
+        {
+            try
+            {
+                return action?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, ex.InnerException);
+                }
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
     }
 }

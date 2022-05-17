@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace DesafioWarren.API.Validators
+namespace DesafioWarren.API.Validators.ValidationExtensions
 {
     public static class ValidationExtensions
     {

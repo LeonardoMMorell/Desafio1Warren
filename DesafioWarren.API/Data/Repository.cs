@@ -2,55 +2,87 @@
 
 namespace DesafioWarren.API.Data
 {
-    public class Repository : IRepository
+    public class Repository : ICustomerServices
     {
-        public List<Cadastro> Cadastros { get; set; } = new List<Cadastro>()
+        public List<Customer> CustomersClients { get; set; } = new List<Customer>();
+        public List<Customer> GetAll(Predicate<Customer> predicate)
         {
-            new Cadastro()
+            return CustomersClients.FindAll(x => x.Equals(CustomersClients));
+        }
+
+        public void Add(Customer customer)
+        {
+            int LastId = 0;
+            if (CustomersClients.Count == 0)
             {
-                Id = 1,
-                fullName = "Leonardo Matheus Morell",
-                email = "lmmorell79@gmail.com",
-                emailConfirmation = "",
-                cpf = "12949249906",
-                cellphone = "47 992438398",
-                birthdate = DateTime.Parse ("23/05/2006"),
-                emailSms = true,
-                whatsapp = false,
-                country = "Brasil",
-                city = "Blumenau",
-                postalCode = "740660",
-                address = "Rua Bruno Mette",
-                number = 2
+                customer.Id = LastId + 1;
+                CustomersClients.Add(customer);
             }
-        };
-
-        public void add(Cadastro Cadastro)
-        {
-            int lastId = Cadastros.Last().Id;
-            Cadastro.Id = lastId + 1;
-            Cadastros.Add(Cadastro);
+            else
+            {
+                LastId = CustomersClients.Last().Id;
+                customer.Id = LastId + 1;
+                CustomersClients.Add(customer);
+            }
         }
 
-        public void update(Cadastro cadastro, Cadastro cdtUpdated)
+        public void DeleteCustomer(Customer customer)
         {
-            cdtUpdated.fullName = cadastro.fullName;
-            cdtUpdated.email = cadastro.email;
-            cdtUpdated.emailConfirmation = cadastro.emailConfirmation;
-            cdtUpdated.cpf = cadastro.cpf;
-            cdtUpdated.emailSms = cadastro.emailSms;
-            cdtUpdated.cellphone = cadastro.cellphone;
-            cdtUpdated.cellphone = cadastro.cellphone;
-            cdtUpdated.country = cadastro.country;
-            cdtUpdated.city = cadastro.city;
-            cdtUpdated.address = cadastro.address;
-            cdtUpdated.postalCode = cadastro.postalCode;
-            cdtUpdated.whatsapp = cadastro.whatsapp;
+            CustomersClients.Remove(customer);
         }
 
-        public void deleteCdt(Cadastro cadastro)
+        public void Update(Customer customer, Customer CustomerUpdated)
         {
-            Cadastros.Remove(cadastro);
+            customer.FullName = CustomerUpdated.FullName;
+            customer.Email = CustomerUpdated.Email;
+            customer.EmailConfirmation = CustomerUpdated.EmailConfirmation;
+            customer.Cpf = CustomerUpdated.Cpf;
+            customer.Cellphone = CustomerUpdated.Cellphone;
+            customer.Birthdate = CustomerUpdated.Birthdate;
+            customer.EmailSms = CustomerUpdated.EmailSms;
+            customer.Whatsapp = CustomerUpdated.Whatsapp;
+            customer.City = CustomerUpdated.City;
+            customer.Country = CustomerUpdated.Country;
+            customer.PostalCode = CustomerUpdated.PostalCode;
+            customer.Address = CustomerUpdated.Address;
+            customer.Number = CustomerUpdated.Number;
+        }
+
+        public List<Customer> SearchId(int id)
+        {
+            var customer = CustomersClients.FindAll(x => x.Id == id);
+            if (customer.Count is 0)
+            {
+                return null;
+            }
+            return customer;
+        }
+        public List<Customer> SearchFullName(string FullName)
+        {
+            var customer = CustomersClients.FindAll(x => x.FullName == FullName);
+            if (customer.Count is 0)
+            {
+                return null;
+            }
+            return customer;
+        }
+        public List<Customer> SearchEmail(string Email)
+        {
+            var customer = CustomersClients.FindAll(x => x.Email == Email);
+            if (customer.Count is 0)
+            {
+                return null;
+            }
+            return customer;
+        }
+        public List<Customer> SearchCpf(string Cpf)
+        {
+            var customer = CustomersClients.FindAll(x => x.Cpf == Cpf);
+            if (customer.Count is 0)
+            {
+                return null;
+            }
+            return customer;
         }
     }
 }
