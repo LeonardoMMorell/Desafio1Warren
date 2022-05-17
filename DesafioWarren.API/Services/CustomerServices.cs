@@ -1,13 +1,23 @@
 ﻿using DesafioWarren.API.Models;
+using System.Linq;
 
 namespace DesafioWarren.API.Data
 {
-    public class Repository : ICustomerServices
+    public class CustomerServices : ICustomerServices
     {
         public List<Customer> CustomersClients { get; set; } = new List<Customer>();
-        public List<Customer> GetAll(Predicate<Customer> predicate)
+        public List<Customer> GetAll(Predicate<Customer> predicate = null)
         {
+            if (predicate is null)
+            {
+                return CustomersClients;
+            }
             return CustomersClients.FindAll(x => x.Equals(CustomersClients));
+        }
+        public Customer GetSingle(Func<Customer, bool> predicate)
+        {
+            var customer = CustomersClients.FirstOrDefault(predicate);
+            return customer;
         }
 
         public void Add(Customer customer)

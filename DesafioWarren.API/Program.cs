@@ -13,7 +13,7 @@ builder.Services
     .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<Validation>());
 
 builder.Services.AddMemoryCache();
-builder.Services.AddSingleton<ICustomerServices, Repository>();
+builder.Services.AddSingleton<ICustomerServices, CustomerServices>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

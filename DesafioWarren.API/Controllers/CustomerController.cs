@@ -17,7 +17,7 @@ namespace DesafioWarren.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_repository.CustomersClients);
+            return Ok(_repository.GetAll());
         }
 
         [HttpGet("{id:int}")]
@@ -25,7 +25,7 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var IdProtection = _repository.CustomersClients.Find(x => x.Id.Equals(id));
+                var IdProtection = _repository.GetAll(x => x.Id.Equals(id));
                 if (IdProtection is null) return NotFound($"Error 404 // Client not found! for id: {id}");
                 return Ok(IdProtection);
             });
@@ -67,26 +67,35 @@ namespace DesafioWarren.API.Controllers
         [HttpPost]
         public IActionResult Post(Customer customer)
         {
-            _repository.Add(customer);
-            return Created("~api/customer", "Your registration was successfully created, ID: " + customer.Id);
+            return SafeAction(() =>
+            {
+                _repository.Add(customer);
+                return Created("~api/customer", "Your registration was successfully created, ID: " + customer.Id);
+            });
         }
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, Customer customer)
         {
-            var CustomerPut = _repository.CustomersClients.FirstOrDefault(c => c.Id == id);
-            if (CustomerPut == null) return NotFound($"Error: 404 // There is no such ID{id} in the list");
-            _repository.Update(CustomerPut, customer);
-            return Ok(customer);
+            return SafeAction(() =>
+            {
+                var CustomerPut = _repository.GetSingle(c => c.Id == id);
+                if (CustomerPut == null) return NotFound($"Error: 404 // There is no such ID{id} in the list");
+                _repository.Update(CustomerPut, customer);
+                return Ok(customer);
+            });
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id, Customer customer)
         {
-            var VariableDelete = _repository.CustomersClients.FirstOrDefault(c => c.Id == id);
-            if (VariableDelete == null) return NotFound($"Error: 404 // This ID{id} is not in the list");
-            _repository.DeleteCustomer(VariableDelete);
-            return Ok("The customer was successfully deleted");
+            return SafeAction(() =>
+            {
+                var VariableDelete = _repository.GetSingle(c => c.Id == id);
+                if (VariableDelete == null) return NotFound($"Error: 404 // This ID{id} is not in the list");
+                _repository.DeleteCustomer(VariableDelete);
+                return Ok("The customer was successfully deleted");
+            });
         }
         private IActionResult SafeAction(Func<IActionResult> action)
         {
