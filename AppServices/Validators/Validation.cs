@@ -1,6 +1,7 @@
 ﻿using DesafioWarren.API.Models;
 using DesafioWarren.API.Validators.ValidationExtensions;
 using FluentValidation;
+using System;
 
 namespace DesafioWarren.API.Validators
 {

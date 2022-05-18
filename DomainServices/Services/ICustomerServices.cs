@@ -1,4 +1,6 @@
 ﻿using DesafioWarren.API.Models;
+using System;
+using System.Collections.Generic;
 
 namespace DesafioWarren.API.Data
 {

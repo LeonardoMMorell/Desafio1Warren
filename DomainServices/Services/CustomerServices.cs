@@ -1,4 +1,6 @@
 ﻿using DesafioWarren.API.Models;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DesafioWarren.API.Data
@@ -66,12 +68,7 @@ namespace DesafioWarren.API.Data
         }
         public List<Customer> SearchId(int id)
         {
-            var customer = CustomersClients.FindAll(x => x.Id == id);
-            if (customer.Count is 0)
-            {
-                return null;
-            }
-            return customer;
+            return CustomersClients.FindAll(x => x.Id == id);
         }
         public List<Customer> SearchFullName(string FullName)
         {

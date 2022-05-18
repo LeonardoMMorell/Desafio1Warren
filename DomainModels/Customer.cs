@@ -1,4 +1,6 @@
-﻿namespace DesafioWarren.API.Models
+﻿using System;
+
+namespace DesafioWarren.API.Models
 {
     public class Customer
     {

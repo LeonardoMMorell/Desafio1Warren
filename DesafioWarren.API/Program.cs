@@ -1,10 +1,9 @@
+using AppServices;
 using DesafioWarren.API.Data;
 using DesafioWarren.API.Validators;
 using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 // Add services to the container.
 
@@ -14,6 +13,7 @@ builder.Services
 
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<ICustomerServices, CustomerServices>();
+builder.Services.AddTransient<ICustomerAppService, CustomerAppService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
