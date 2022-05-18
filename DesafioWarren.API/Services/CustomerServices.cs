@@ -5,7 +5,7 @@ namespace DesafioWarren.API.Data
 {
     public class CustomerServices : ICustomerServices
     {
-        public List<Customer> CustomersClients { get; set; } = new List<Customer>();
+        private List<Customer> CustomersClients { get; set; } = new List<Customer>();
         public List<Customer> GetAll(Predicate<Customer> predicate = null)
         {
             if (predicate is null)
@@ -19,7 +19,6 @@ namespace DesafioWarren.API.Data
             var customer = CustomersClients.FirstOrDefault(predicate);
             return customer;
         }
-
         public void Add(Customer customer)
         {
             int LastId = 0;
@@ -35,14 +34,21 @@ namespace DesafioWarren.API.Data
                 CustomersClients.Add(customer);
             }
         }
-
-        public void DeleteCustomer(Customer customer)
+        public bool DeleteCustomer(int id)
         {
-            CustomersClients.Remove(customer);
+            var VariableDelete = GetSingle(c => c.Id == id);
+            if (VariableDelete == null) return false;
+            CustomersClients.Remove(VariableDelete);
+            return true;
         }
 
-        public void Update(Customer customer, Customer CustomerUpdated)
+        public bool Update(int id, Customer CustomerUpdated)
         {
+            var customer = GetSingle(x => x.Id == id);
+            if (customer == null)
+            {
+                return false;
+            }
             customer.FullName = CustomerUpdated.FullName;
             customer.Email = CustomerUpdated.Email;
             customer.EmailConfirmation = CustomerUpdated.EmailConfirmation;
@@ -56,8 +62,8 @@ namespace DesafioWarren.API.Data
             customer.PostalCode = CustomerUpdated.PostalCode;
             customer.Address = CustomerUpdated.Address;
             customer.Number = CustomerUpdated.Number;
+            return true;
         }
-
         public List<Customer> SearchId(int id)
         {
             var customer = CustomersClients.FindAll(x => x.Id == id);
