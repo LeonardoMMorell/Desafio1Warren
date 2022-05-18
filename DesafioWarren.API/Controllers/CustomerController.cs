@@ -79,21 +79,17 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var CustomerPut = _repository.GetSingle(c => c.Id == id);
-                if (CustomerPut == null) return NotFound($"Error: 404 // There is no such ID{id} in the list");
-                _repository.Update(CustomerPut, customer);
+                _repository.Update(id, customer);
                 return Ok(customer);
             });
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id, Customer customer)
+        public IActionResult Delete(int id)
         {
             return SafeAction(() =>
             {
-                var VariableDelete = _repository.GetSingle(c => c.Id == id);
-                if (VariableDelete == null) return NotFound($"Error: 404 // This ID{id} is not in the list");
-                _repository.DeleteCustomer(VariableDelete);
+                _repository.DeleteCustomer(id);
                 return Ok("The customer was successfully deleted");
             });
         }
