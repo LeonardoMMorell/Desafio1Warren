@@ -2,9 +2,6 @@
 using DesafioWarren.API.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AppServices
 {
@@ -60,6 +57,5 @@ namespace AppServices
         {
             return _customerServices.SearchCpf(Cpf);
         }
-
     }
 }
