@@ -8,6 +8,7 @@ namespace AppServices
     public class CustomerAppService : ICustomerAppService
     {
         private readonly ICustomerServices _customerServices;
+        
         public CustomerAppService(ICustomerServices customerServices)
         {
             _customerServices = customerServices;
