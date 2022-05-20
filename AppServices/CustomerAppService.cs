@@ -39,9 +39,9 @@ namespace AppServices
             return _customerServices.Update(id, CustomerUpdated);
         }
 
-        public List<Customer> SearchId(int id)
+        public List<Customer> GetById(int id)
         {
-            return _customerServices.SearchId(id);
+            return _customerServices.GetById(id);
         }
 
         public List<Customer> SearchFullName(string FullName)
