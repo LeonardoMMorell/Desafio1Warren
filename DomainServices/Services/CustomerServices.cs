@@ -17,7 +17,7 @@ namespace DesafioWarren.API.Data
             return CustomersClients.FindAll(x => x.Equals(CustomersClients));
         }
 
-        public Customer GetSingle(Func<Customer, bool> predicate)
+        public Customer GetBy(Func<Customer, bool> predicate)
         {
             var customer = CustomersClients.FirstOrDefault(predicate);
             return customer;
