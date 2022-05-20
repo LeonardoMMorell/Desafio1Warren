@@ -20,9 +20,10 @@ namespace DesafioWarren.API.Controllers
             return SafeAction(() =>
             {
                 var customers = _repository.GetAll();
+                
                 return !customers.Any()
-                ? NotFound()
-                : Ok(customers);
+                    ? NotFound()
+                    : Ok(customers);
             }); 
         }
 
