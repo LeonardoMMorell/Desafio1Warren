@@ -19,7 +19,7 @@ namespace AppServices
             return _customerServices.GetAll(predicate);
         }
 
-        public Customer GetSingle(Func<Customer, bool> predicate)
+        public Customer GetBy(Func<Customer, bool> predicate)
         {
             return _customerServices.GetSingle(predicate);
         }
