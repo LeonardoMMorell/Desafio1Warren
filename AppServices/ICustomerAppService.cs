@@ -10,9 +10,9 @@ namespace AppServices
         bool DeleteCustomer(int id);
         List<Customer> GetAll(Predicate<Customer> predicate = null);
         Customer GetBy(Func<Customer, bool> predicate);
-        List<Customer> GetByCpf(string cpf);
-        List<Customer> GetByEmail(string email);
-        List<Customer> GetByFullName(string fullName);
+        List<Customer> GetAllByCpf(string cpf);
+        List<Customer> GetAllByEmail(string email);
+        List<Customer> GetAllByFullName(string fullName);
         Customer GetById(int id);
         bool Update(int id, Customer CustomerUpdated);
     }

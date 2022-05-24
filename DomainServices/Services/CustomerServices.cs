@@ -7,8 +7,6 @@ namespace DomainServices
 {
     public class CustomerServices : ICustomerServices
     {
-        private readonly ICustomerServices _customerServices;
-
         private List<Customer> CustomersClients { get; set; } = new List<Customer>();
 
         public List<Customer> GetAll(Predicate<Customer> predicate = null)

@@ -44,17 +44,17 @@ namespace AppServices
             return _customerServices.GetBy(x => x.Id == id);
         }
 
-        public List<Customer> GetByFullName(string fullName)
+        public List<Customer> GetAllByFullName(string fullName)
         {
             return GetAll(x => x.FullName.Equals(fullName));
         }
 
-        public List<Customer> GetByEmail(string email)
+        public List<Customer> GetAllByEmail(string email)
         {
             return _customerServices.GetAll(x => x.Email == email);
         }
 
-        public List<Customer> GetByCpf(string cpf)
+        public List<Customer> GetAllByCpf(string cpf)
         {
             return _customerServices.GetAll(x => x.Cpf == cpf);
         }

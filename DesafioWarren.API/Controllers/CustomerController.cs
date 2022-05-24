@@ -33,7 +33,7 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var IdProtection = _customerAppService.GetAll(x => x.Id.Equals(id));
+                var IdProtection = _customerAppService.GetById(id);
                 if (IdProtection is null) return NotFound($"Error 404 // Client not found! for id: {id}");
                 return Ok(IdProtection);
             });
@@ -44,7 +44,7 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var FullNameProtection = _customerAppService.GetAll(x => x.FullName == fullName);
+                var FullNameProtection = _customerAppService.GetAllByFullName(fullName);
                 if (FullNameProtection.Capacity == 0) return NotFound($"Error 404 // Client not found! For FullName: {fullName}");
                 return Ok(FullNameProtection);
             });
@@ -55,7 +55,7 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var EmailProtection = _customerAppService.GetAll(x => x.Email == email);
+                var EmailProtection = _customerAppService.GetAllByEmail(email);
                 if (EmailProtection.Capacity == 0) return NotFound($"Error 404 // Client not found! For Email: {email}");
                 return Ok(EmailProtection);
             });
@@ -66,7 +66,7 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var CpfProtection = _customerAppService.GetAll(x => x.Cpf == cpf);
+                var CpfProtection = _customerAppService.GetAllByCpf(cpf);
                 if (CpfProtection.Capacity == 0) return NotFound($"Error 404 // Client not found! For CPF: {cpf}");
                 return Ok(CpfProtection);
             });
