@@ -87,18 +87,19 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                _customerAppService.Update(id, customer);
-                return Ok(customer);
+                return !_customerAppService.Update(id, customer)
+                    ? NotFound()
+                    : NoContent();
             });
         }
-
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             return SafeAction(() =>
             {
-                _customerAppService.DeleteCustomer(id);
-                return NoContent();
+                return !_customerAppService.DeleteCustomer(id)
+                    ? NotFound()
+                    : NoContent();            
             });
         }
         private IActionResult SafeAction(Func<IActionResult> action)
