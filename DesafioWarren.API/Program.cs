@@ -1,6 +1,5 @@
 using AppServices;
-using DesafioWarren.API.Data;
-using DesafioWarren.API.Validators;
+using DomainServices;
 using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);

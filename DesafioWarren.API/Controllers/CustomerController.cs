@@ -1,5 +1,5 @@
-﻿using DesafioWarren.API.Data;
-using DesafioWarren.API.Models;
+﻿using AppServices;
+using DomainModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DesafioWarren.API.Controllers
@@ -8,10 +8,11 @@ namespace DesafioWarren.API.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        private readonly ICustomerServices _repository;
-        public CustomersController(ICustomerServices repository)
+        private readonly ICustomerAppService _customerAppService;
+
+        public CustomersController(ICustomerAppService customerAppService)
         {
-            _repository = repository;
+            _customerAppService = customerAppService;
         }
 
         [HttpGet]
@@ -19,7 +20,7 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var customers = _repository.GetAll();
+                var customers = _customerAppService.GetAll();
                 
                 return !customers.Any()
                     ? NotFound()
@@ -32,7 +33,7 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var IdProtection = _repository.GetAll(x => x.Id.Equals(id));
+                var IdProtection = _customerAppService.GetById(id);
                 if (IdProtection is null) return NotFound($"Error 404 // Client not found! for id: {id}");
                 return Ok(IdProtection);
             });
@@ -43,7 +44,7 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var FullNameProtection = _repository.GetAll(x => x.FullName == fullName);
+                var FullNameProtection = _customerAppService.GetAllByFullName(fullName);
                 if (FullNameProtection.Capacity == 0) return NotFound($"Error 404 // Client not found! For FullName: {fullName}");
                 return Ok(FullNameProtection);
             });
@@ -54,7 +55,7 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var EmailProtection = _repository.GetAll(x => x.Email == email);
+                var EmailProtection = _customerAppService.GetAllByEmail(email);
                 if (EmailProtection.Capacity == 0) return NotFound($"Error 404 // Client not found! For Email: {email}");
                 return Ok(EmailProtection);
             });
@@ -65,7 +66,7 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var CpfProtection = _repository.GetAll(x => x.Cpf == cpf);
+                var CpfProtection = _customerAppService.GetAllByCpf(cpf);
                 if (CpfProtection.Capacity == 0) return NotFound($"Error 404 // Client not found! For CPF: {cpf}");
                 return Ok(CpfProtection);
             });
@@ -76,7 +77,7 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                _repository.Add(customer);
+                _customerAppService.Add(customer);
                 return Created("~api/customer", "Your registration was successfully created, ID: " + customer.Id);
             });
         }
@@ -86,18 +87,19 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                _repository.Update(id, customer);
-                return Ok(customer);
+                return !_customerAppService.Update(id, customer)
+                    ? NotFound()
+                    : NoContent();
             });
         }
-
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             return SafeAction(() =>
             {
-                _repository.DeleteCustomer(id);
-                return NoContent();
+                return !_customerAppService.DeleteCustomer(id)
+                    ? NotFound()
+                    : NoContent();            
             });
         }
         private IActionResult SafeAction(Func<IActionResult> action)

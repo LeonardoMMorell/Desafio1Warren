@@ -1,20 +1,18 @@
-﻿using DesafioWarren.API.Models;
+﻿using DomainModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DesafioWarren.API.Data
+namespace DomainServices
 {
     public class CustomerServices : ICustomerServices
     {
         private List<Customer> CustomersClients { get; set; } = new List<Customer>();
+
         public List<Customer> GetAll(Predicate<Customer> predicate = null)
         {
-            if (predicate is null)
-            {
-                return CustomersClients;
-            }
-            return CustomersClients.FindAll(x => x.Equals(CustomersClients));
+            if (predicate is null) return CustomersClients;
+            return CustomersClients.FindAll(predicate);
         }
 
         public Customer GetBy(Func<Customer, bool> predicate)
@@ -41,7 +39,7 @@ namespace DesafioWarren.API.Data
 
         public bool DeleteCustomer(int id)
         {
-            var VariableDelete = GetSingle(c => c.Id == id);
+            var VariableDelete = GetBy(c => c.Id == id);
             if (VariableDelete == null) return false;
             CustomersClients.Remove(VariableDelete);
             return true;
@@ -49,7 +47,7 @@ namespace DesafioWarren.API.Data
 
         public bool Update(int id, Customer CustomerUpdated)
         {
-            var customer = GetSingle(x => x.Id == id);
+            var customer = GetBy(x => x.Id == id);
             if (customer == null)
             {
                 return false;

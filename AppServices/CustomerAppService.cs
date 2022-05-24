@@ -1,5 +1,5 @@
-﻿using DesafioWarren.API.Data;
-using DesafioWarren.API.Models;
+﻿using DomainModels;
+using DomainServices;
 using System;
 using System.Collections.Generic;
 
@@ -8,7 +8,7 @@ namespace AppServices
     public class CustomerAppService : ICustomerAppService
     {
         private readonly ICustomerServices _customerServices;
-        
+
         public CustomerAppService(ICustomerServices customerServices)
         {
             _customerServices = customerServices;
@@ -21,7 +21,7 @@ namespace AppServices
 
         public Customer GetBy(Func<Customer, bool> predicate)
         {
-            return _customerServices.GetSingle(predicate);
+            return _customerServices.GetBy(predicate);
         }
 
         public void Add(Customer customer)
@@ -39,24 +39,24 @@ namespace AppServices
             return _customerServices.Update(id, CustomerUpdated);
         }
 
-        public List<Customer> GetById(int id)
+        public Customer GetById(int id)
         {
-            return _customerServices.GetById(id);
+            return _customerServices.GetBy(x => x.Id == id);
         }
 
-        public List<Customer> SearchFullName(string FullName)
+        public List<Customer> GetAllByFullName(string fullName)
         {
-            return _customerServices.SearchFullName(FullName);
+            return GetAll(x => x.FullName.Equals(fullName));
         }
 
-        public List<Customer> SearchEmail(string Email)
+        public List<Customer> GetAllByEmail(string email)
         {
-            return _customerServices.SearchEmail(Email);
+            return _customerServices.GetAll(x => x.Email == email);
         }
 
-        public List<Customer> SearchCpf(string Cpf)
+        public List<Customer> GetAllByCpf(string cpf)
         {
-            return _customerServices.SearchCpf(Cpf);
+            return _customerServices.GetAll(x => x.Cpf == cpf);
         }
     }
 }
