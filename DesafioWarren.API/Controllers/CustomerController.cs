@@ -1,5 +1,5 @@
-﻿using DesafioWarren.API.Data;
-using DesafioWarren.API.Models;
+﻿using DomainModels;
+using DomainServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DesafioWarren.API.Controllers

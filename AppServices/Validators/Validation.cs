@@ -1,9 +1,8 @@
-﻿using DesafioWarren.API.Models;
-using DesafioWarren.API.Validators.ValidationExtensions;
+﻿using DomainModels;
 using FluentValidation;
 using System;
 
-namespace DesafioWarren.API.Validators
+namespace AppServices
 {
     public class Validation : AbstractValidator<Customer>
     {

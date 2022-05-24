@@ -1,23 +1,20 @@
-﻿using DesafioWarren.API.Models;
+﻿using DomainModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DesafioWarren.API.Data
+namespace DomainServices
 {
     public class CustomerServices : ICustomerServices
     {
         private List<Customer> CustomersClients { get; set; } = new List<Customer>();
         public List<Customer> GetAll(Predicate<Customer> predicate = null)
         {
-            if (predicate is null)
-            {
-                return CustomersClients;
-            }
-            return CustomersClients.FindAll(x => x.Equals(CustomersClients));
+            if (predicate is null) return CustomersClients;
+            return CustomersClients.FindAll(predicate);
         }
 
-        public Customer GetBy(Func<Customer, bool> predicate)
+        public Customer GetSingle(Func<Customer, bool> predicate)
         {
             var customer = CustomersClients.FirstOrDefault(predicate);
             return customer;

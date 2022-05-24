@@ -1,8 +1,8 @@
-﻿using DesafioWarren.API.Models;
+﻿using DomainModels;
 using System;
 using System.Collections.Generic;
 
-namespace DesafioWarren.API.Data
+namespace DomainServices
 {
     public interface ICustomerServices
     {
