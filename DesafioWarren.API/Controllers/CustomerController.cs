@@ -17,7 +17,14 @@ namespace DesafioWarren.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_repository.GetAll());
+            return SafeAction(() =>
+            {
+                var customers = _repository.GetAll();
+                
+                return !customers.Any()
+                    ? NotFound()
+                    : Ok(customers);
+            }); 
         }
 
         [HttpGet("{id:int}")]
@@ -90,7 +97,7 @@ namespace DesafioWarren.API.Controllers
             return SafeAction(() =>
             {
                 _repository.DeleteCustomer(id);
-                return Ok("The customer was successfully deleted");
+                return NoContent();
             });
         }
         private IActionResult SafeAction(Func<IActionResult> action)

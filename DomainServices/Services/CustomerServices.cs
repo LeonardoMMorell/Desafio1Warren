@@ -1,4 +1,6 @@
 ﻿using DesafioWarren.API.Models;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DesafioWarren.API.Data
@@ -14,11 +16,13 @@ namespace DesafioWarren.API.Data
             }
             return CustomersClients.FindAll(x => x.Equals(CustomersClients));
         }
-        public Customer GetSingle(Func<Customer, bool> predicate)
+
+        public Customer GetBy(Func<Customer, bool> predicate)
         {
             var customer = CustomersClients.FirstOrDefault(predicate);
             return customer;
         }
+
         public void Add(Customer customer)
         {
             int LastId = 0;
@@ -34,6 +38,7 @@ namespace DesafioWarren.API.Data
                 CustomersClients.Add(customer);
             }
         }
+
         public bool DeleteCustomer(int id)
         {
             var VariableDelete = GetSingle(c => c.Id == id);
@@ -64,14 +69,10 @@ namespace DesafioWarren.API.Data
             customer.Number = CustomerUpdated.Number;
             return true;
         }
+
         public List<Customer> SearchId(int id)
         {
-            var customer = CustomersClients.FindAll(x => x.Id == id);
-            if (customer.Count is 0)
-            {
-                return null;
-            }
-            return customer;
+            return CustomersClients.FindAll(x => x.Id == id);
         }
         public List<Customer> SearchFullName(string FullName)
         {
@@ -82,6 +83,7 @@ namespace DesafioWarren.API.Data
             }
             return customer;
         }
+
         public List<Customer> SearchEmail(string Email)
         {
             var customer = CustomersClients.FindAll(x => x.Email == Email);
@@ -91,6 +93,7 @@ namespace DesafioWarren.API.Data
             }
             return customer;
         }
+
         public List<Customer> SearchCpf(string Cpf)
         {
             var customer = CustomersClients.FindAll(x => x.Cpf == Cpf);
