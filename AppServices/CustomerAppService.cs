@@ -19,9 +19,9 @@ namespace AppServices
             return _customerServices.GetAll(predicate);
         }
 
-        public Customer GetSingle(Func<Customer, bool> predicate)
+        public Customer GetBy(Func<Customer, bool> predicate)
         {
-            return _customerServices.GetSingle(predicate);
+            return _customerServices.GetBy(predicate);
         }
 
         public void Add(Customer customer)
@@ -39,22 +39,22 @@ namespace AppServices
             return _customerServices.Update(id, CustomerUpdated);
         }
 
-        public List<Customer> SearchId(int id)
+        public Customer GetById(int id)
         {
-            return _customerServices.GetAll(x => x.Id == id);
+            return _customerServices.GetBy(x => x.Id == id);
         }
 
-        public List<Customer> SearchFullName(string fullName)
+        public List<Customer> GetByFullName(string fullName)
         {
             return GetAll(x => x.FullName.Equals(fullName));
         }
 
-        public List<Customer> SearchEmail(string email)
+        public List<Customer> GetByEmail(string email)
         {
             return _customerServices.GetAll(x => x.Email == email);
         }
 
-        public List<Customer> SearchCpf(string cpf)
+        public List<Customer> GetByCpf(string cpf)
         {
             return _customerServices.GetAll(x => x.Cpf == cpf);
         }

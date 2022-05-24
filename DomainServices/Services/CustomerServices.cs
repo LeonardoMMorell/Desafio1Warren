@@ -7,14 +7,17 @@ namespace DomainServices
 {
     public class CustomerServices : ICustomerServices
     {
+        private readonly ICustomerServices _customerServices;
+
         private List<Customer> CustomersClients { get; set; } = new List<Customer>();
+
         public List<Customer> GetAll(Predicate<Customer> predicate = null)
         {
             if (predicate is null) return CustomersClients;
             return CustomersClients.FindAll(predicate);
         }
 
-        public Customer GetSingle(Func<Customer, bool> predicate)
+        public Customer GetBy(Func<Customer, bool> predicate)
         {
             var customer = CustomersClients.FirstOrDefault(predicate);
             return customer;
@@ -38,7 +41,7 @@ namespace DomainServices
 
         public bool DeleteCustomer(int id)
         {
-            var VariableDelete = GetSingle(c => c.Id == id);
+            var VariableDelete = GetBy(c => c.Id == id);
             if (VariableDelete == null) return false;
             CustomersClients.Remove(VariableDelete);
             return true;
@@ -46,7 +49,7 @@ namespace DomainServices
 
         public bool Update(int id, Customer CustomerUpdated)
         {
-            var customer = GetSingle(x => x.Id == id);
+            var customer = GetBy(x => x.Id == id);
             if (customer == null)
             {
                 return false;
