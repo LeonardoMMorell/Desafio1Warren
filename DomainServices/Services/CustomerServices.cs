@@ -21,10 +21,11 @@ namespace DomainServices
             return customer;
         }
 
-        public void Add(Customer customer)
+        public int Add(Customer customer)
         {
             int LastId = 0;
-            if (CustomersClients.Count == 0)
+
+            if(CustomersClients.Count == 0)
             {
                 customer.Id = LastId + 1;
                 CustomersClients.Add(customer);
@@ -35,6 +36,7 @@ namespace DomainServices
                 customer.Id = LastId + 1;
                 CustomersClients.Add(customer);
             }
+            return customer.Id;
         }
 
         public bool DeleteCustomer(int id)
@@ -72,6 +74,7 @@ namespace DomainServices
         {
             return CustomersClients.FindAll(x => x.Id == id);
         }
+
         public List<Customer> SearchFullName(string FullName)
         {
             var customer = CustomersClients.FindAll(x => x.FullName == FullName);

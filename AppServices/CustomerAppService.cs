@@ -1,5 +1,7 @@
-﻿using DomainModels;
+﻿using AutoMapper;
+using DomainModels;
 using DomainServices;
+using DomainServices.Dtos;
 using System;
 using System.Collections.Generic;
 
@@ -9,24 +11,30 @@ namespace AppServices
     {
         private readonly ICustomerServices _customerServices;
 
-        public CustomerAppService(ICustomerServices customerServices)
+        private readonly IMapper _mapper;
+
+        public CustomerAppService(ICustomerServices customerServices, IMapper mapper)
         {
             _customerServices = customerServices;
+            _mapper = mapper;
         }
 
-        public List<Customer> GetAll(Predicate<Customer> predicate = null)
+        public IEnumerable<CustomerDto> GetAll(Predicate<Customer> predicate = null)
         {
-            return _customerServices.GetAll(predicate);
+            var customer = _customerServices.GetAll();
+            return _mapper.Map<IEnumerable<CustomerDto>>(customer);
         }
 
-        public Customer GetBy(Func<Customer, bool> predicate)
+        public CustomerDto GetBy(Func<Customer, bool> predicate)
         {
-            return _customerServices.GetBy(predicate);
+            var customer = _customerServices.GetBy(predicate);
+            return _mapper.Map<CustomerDto>(customer);
         }
 
-        public void Add(Customer customer)
+        public int Add(CustomerDto model)
         {
-            _customerServices.Add(customer);
+            var customer =_mapper.Map<Customer>(model);
+            return _customerServices.Add(customer);
         }
 
         public bool DeleteCustomer(int id)
@@ -34,9 +42,10 @@ namespace AppServices
             return _customerServices.DeleteCustomer(id);
         }
 
-        public bool Update(int id, Customer CustomerUpdated)
+        public bool Update(int id, CustomerDto modelUpdated)
         {
-            return _customerServices.Update(id, CustomerUpdated);
+            var customer = _mapper.Map<Customer>(modelUpdated);
+            return _customerServices.Update(id,customer);
         }
 
         public Customer GetById(int id)
@@ -46,7 +55,7 @@ namespace AppServices
 
         public List<Customer> GetAllByFullName(string fullName)
         {
-            return GetAll(x => x.FullName.Equals(fullName));
+            return _customerServices.GetAll(x => x.FullName == fullName);
         }
 
         public List<Customer> GetAllByEmail(string email)
@@ -56,7 +65,7 @@ namespace AppServices
 
         public List<Customer> GetAllByCpf(string cpf)
         {
-            return _customerServices.GetAll(x => x.Cpf == cpf);
+            return  _customerServices.GetAll(x => x.Cpf == cpf);
         }
     }
 }

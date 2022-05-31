@@ -6,7 +6,7 @@ namespace DomainServices
 {
     public interface ICustomerServices
     {
-        public void Add(Customer customer);
+        public int Add(Customer customer);
         List<Customer> SearchId(int id);
         List<Customer> SearchFullName(string FullName);
         List<Customer> SearchEmail(string Email);
