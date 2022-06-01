@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
 using System;
 using DomainModels.Dtos.ValidationExtensionsDto;
+using DomainServices.Dtos;
+
 namespace DomainModels.Dtos
 {
     public class ValidationDto : AbstractValidator<Customer>

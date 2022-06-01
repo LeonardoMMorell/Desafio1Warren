@@ -1,10 +1,11 @@
 ﻿using DomainModels;
+using DomainServices.Dtos;
 using FluentValidation;
 using System;
 
 namespace AppServices
 {
-    public class Validation : AbstractValidator<Customer>
+    public class Validation : AbstractValidator<CustomerDto>
     {
         public Validation()
         {
