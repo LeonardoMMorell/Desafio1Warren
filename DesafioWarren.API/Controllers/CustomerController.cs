@@ -78,7 +78,7 @@ namespace DesafioWarren.API.Controllers
         [HttpPost]
         public IActionResult Post(CreateCustomerRequest createcustomer)
         {
-            return SafeAction(() => 
+            return SafeAction(() =>
             {
                 var id = _customerAppService.Add(createcustomer);
                 return Created("~api/customer", "ID:" + id);
