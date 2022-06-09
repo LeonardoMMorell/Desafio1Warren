@@ -6,6 +6,7 @@ namespace DomainModels
     {
         protected Customer() { }
 
+
         public Customer(int id,
             string fullName,
             string email,
