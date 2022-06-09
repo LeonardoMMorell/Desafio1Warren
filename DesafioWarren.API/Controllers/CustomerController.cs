@@ -1,6 +1,5 @@
 ﻿using AppServices;
-using DomainModels;
-using DomainServices.Dtos;
+using AppServices.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DesafioWarren.API.Controllers
@@ -13,7 +12,7 @@ namespace DesafioWarren.API.Controllers
 
         public CustomersController(ICustomerAppService customerAppService)
         {
-            _customerAppService = customerAppService;
+            _customerAppService = customerAppService ?? throw new ArgumentNullException(nameof(customerAppService));
         }
 
         [HttpGet]
@@ -21,7 +20,7 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var customers = _customerAppService.GetAll();
+                var customers = _customerAppService.GetAll(null);
                 return !customers.Any()
                     ? NotFound("No registered customer found")
                     : Ok(customers);
@@ -35,7 +34,7 @@ namespace DesafioWarren.API.Controllers
             {
                 var IdProtection = _customerAppService.GetById(id);
                 return IdProtection is null
-                    ? NotFound($"Error 404 // Client not found! for id: {id}")
+                    ? NotFound($"Client not found! for id: {id}")
                     : Ok(IdProtection);
             });
         }
@@ -46,8 +45,8 @@ namespace DesafioWarren.API.Controllers
             return SafeAction(() =>
             {
                 var FullNameProtection = _customerAppService.GetAllByFullName(fullName);
-                return FullNameProtection.Capacity == 0
-                    ? NotFound($"Error 404 // Client not found! For FullName: {fullName}")
+                return FullNameProtection.FirstOrDefault() is null
+                    ? NotFound($"Client not found! For FullName: {fullName}")
                     : Ok(FullNameProtection);
             });
         }
@@ -58,8 +57,8 @@ namespace DesafioWarren.API.Controllers
             return SafeAction(() =>
             {
                 var EmailProtection = _customerAppService.GetAllByEmail(email);
-                return EmailProtection.Capacity == 0
-                    ? NotFound($"Error 404 // Client not found! For Email: {email}")
+                return EmailProtection.FirstOrDefault() is null
+                    ? NotFound($"Client not found! For Email: {email}")
                     : Ok(EmailProtection);
             });
         }
@@ -70,30 +69,31 @@ namespace DesafioWarren.API.Controllers
             return SafeAction(() =>
             {
                 var CpfProtection = _customerAppService.GetAllByCpf(cpf);
-                return CpfProtection.Capacity == 0
-                    ? NotFound($"Error 404 // Client not found! For CPF: {cpf}")
+                return CpfProtection.FirstOrDefault() is null
+                    ? NotFound($"Client not found! For CPF: {cpf}")
                     : Ok(CpfProtection);
             });
         }
 
         [HttpPost]
-        public IActionResult Post(CustomerDto model)
+        public IActionResult Post(CreateCustomerRequest createcustomer)
         {
             return SafeAction(() => 
             {
-                var id = _customerAppService.Add(model);
-                return Created("~api/customer", "Your registration was successfully created, ID: " + id);
+                var id = _customerAppService.Add(createcustomer);
+                return Created("~api/customer", "ID:" + id);
             });
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, CustomerDto customerDto)
+        public IActionResult Put(int id, UpdateCustomerRequest customerUp)
         {
             return SafeAction(() =>
             {
-                return !_customerAppService.Update(id, customerDto)
-                    ? NotFound()
-                    : Ok(customerDto);
+                var updatedCustomer = _customerAppService.Update(id, customerUp);
+                return updatedCustomer.validation
+                    ? Ok()
+                    : NotFound(updatedCustomer.errorMessage);
             });
         }
         [HttpDelete("{id}")]
@@ -101,7 +101,7 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                return !_customerAppService.DeleteCustomer(id)
+                return !_customerAppService.Delete(id)
                     ? NotFound()
                     : NoContent();            
             });

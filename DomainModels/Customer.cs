@@ -4,6 +4,7 @@ namespace DomainModels
 {
     public class Customer
     {
+        protected Customer() { }
         public Customer(int id,
             string fullName,
             string email,

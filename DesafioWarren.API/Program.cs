@@ -1,4 +1,5 @@
 using AppServices;
+using AppServices.Validators;
 using DomainServices;
 using FluentValidation.AspNetCore;
 using System.Reflection;
@@ -9,7 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddControllers()
-    .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<Validation>());
+    .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<CustomerCreateValidation>())
+    .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<CustomerUpdateValidation>());
 
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<ICustomerServices, CustomerServices>();

@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using AppServices.Dtos;
+using AutoMapper;
 using DomainModels;
 using DomainServices;
 using DomainServices.Dtos;
@@ -15,57 +16,64 @@ namespace AppServices
 
         public CustomerAppService(ICustomerServices customerServices, IMapper mapper)
         {
-            _customerServices = customerServices;
-            _mapper = mapper;
+            _customerServices = customerServices ?? throw new ArgumentNullException(nameof(customerServices));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public IEnumerable<CustomerDto> GetAll(Predicate<Customer> predicate = null)
+        public IEnumerable<CustomerResult> GetAll(Predicate<Customer> predicate = null)
         {
             var customer = _customerServices.GetAll();
-            return _mapper.Map<IEnumerable<CustomerDto>>(customer);
+            return _mapper.Map<IEnumerable<CustomerResult>>(customer);
         }
 
-        public CustomerDto GetBy(Func<Customer, bool> predicate)
+        public CustomerResult GetBy(Func<Customer, bool> predicate)
         {
             var customer = _customerServices.GetBy(predicate);
-            return _mapper.Map<CustomerDto>(customer);
+            return _mapper.Map<CustomerResult>(customer);
         }
 
-        public int Add(CustomerDto model)
+        public (bool validation, string errorMessage) Add(CreateCustomerRequest createCustomer)
         {
-            var customer =_mapper.Map<Customer>(model);
-            return _customerServices.Add(customer);
+            var customerCreate = _mapper.Map<Customer>(createCustomer);
+            var customerAdd = _customerServices.Add(customerCreate);
+            if (customerAdd.validation) return (true, customerAdd.errorMessage);
+
+            return (false, customerAdd.errorMessage);
         }
 
-        public bool DeleteCustomer(int id)
+        public bool Delete(int id)
         {
-            return _customerServices.DeleteCustomer(id);
+            return _customerServices.Delete(id);
         }
 
-        public bool Update(int id, CustomerDto modelUpdated)
+        public (bool validation, string errorMessage) Update(int id, UpdateCustomerRequest modelUpdated)
         {
             var customer = _mapper.Map<Customer>(modelUpdated);
-            return _customerServices.Update(id,customer);
+            return _customerServices.Update(id, customer);
         }
 
-        public Customer GetById(int id)
+        public CustomerResult GetById(int id)
         {
-            return _customerServices.GetBy(x => x.Id == id);
+            var getId =_customerServices.GetBy(x => x.Id == id);
+            return _mapper.Map<CustomerResult>(getId);
         }
 
-        public List<Customer> GetAllByFullName(string fullName)
+        public IEnumerable<CustomerResult> GetAllByFullName(string fullName)
         {
-            return _customerServices.GetAll(x => x.FullName == fullName);
+            var getFullName = _customerServices.GetAll(x => x.FullName == fullName);
+            return _mapper.Map<IEnumerable<CustomerResult>>(getFullName);
         }
 
-        public List<Customer> GetAllByEmail(string email)
+        public IEnumerable<CustomerResult> GetAllByEmail(string email)
         {
-            return _customerServices.GetAll(x => x.Email == email);
+            var getEmail = _customerServices.GetAll(x => x.Email == email);
+            return _mapper.Map<IEnumerable<CustomerResult>>(getEmail);
         }
 
-        public List<Customer> GetAllByCpf(string cpf)
+        public IEnumerable<CustomerResult> GetAllByCpf(string cpf)
         {
-            return  _customerServices.GetAll(x => x.Cpf == cpf);
+            var getCpf =_customerServices.GetAll(x => x.Cpf == cpf);
+            return _mapper.Map<IEnumerable<CustomerResult>>(getCpf);
         }
     }
 }

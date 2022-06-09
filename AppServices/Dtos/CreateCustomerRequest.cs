@@ -1,11 +1,16 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace DomainServices.Dtos
+namespace AppServices.Dtos
 {
-    public class CustomerDto
+    public class CreateCustomerRequest
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string FullName { get; set; }
+        [Display(Name  = "Nome Completo", Description = "Nome e Sobrenome.")]
+        [Required(ErrorMessage = "O nome completo é obrigatório.")]
+        [RegularExpression(@"^[a-zA-Z''-'\s]{1,40}$", ErrorMessage =
+            "Números e caracteres especiais não são permitidos no nome.")]
         public string Email { get; set; }
         public string EmailConfirmation { get; set; }
         public string Cpf { get; set; }
