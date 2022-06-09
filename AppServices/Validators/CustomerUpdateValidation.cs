@@ -21,8 +21,6 @@ namespace AppServices.Validators
                 .NotNull()
                 .EmailAddress(EmailValidationMode.Net4xRegex);
 
-            RuleFor(x => x.EmailConfirmation.Equals(x.Email));
-
             RuleFor(x => x.Cpf)
                 .NotEmpty()
                 .Must(ValidateCpf)

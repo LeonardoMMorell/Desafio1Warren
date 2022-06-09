@@ -12,8 +12,8 @@ namespace AppServices
         bool Delete(int id);
         IEnumerable<CustomerResult> GetAll(Predicate<Customer> predicate);
         CustomerResult GetBy(Func<Customer, bool> predicate);
-        IEnumerable<CustomerResult> GetAllByCpf(string cpf);
-        IEnumerable<CustomerResult> GetAllByEmail(string email);
+        CustomerResult GetByCpf(string cpf);
+        CustomerResult GetByEmail(string email);
         IEnumerable<CustomerResult> GetAllByFullName(string fullName);
         CustomerResult GetById(int id);
         public (bool validation, string errorMessage) Update(int id, UpdateCustomerRequest customerDtoUpdated);

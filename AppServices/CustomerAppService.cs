@@ -54,26 +54,26 @@ namespace AppServices
 
         public CustomerResult GetById(int id)
         {
-            var getId =_customerServices.GetBy(x => x.Id == id);
-            return _mapper.Map<CustomerResult>(getId);
+            var customer =_customerServices.GetBy(x => x.Id == id);
+            return _mapper.Map<CustomerResult>(customer);
         }
 
         public IEnumerable<CustomerResult> GetAllByFullName(string fullName)
         {
-            var getFullName = _customerServices.GetAll(x => x.FullName == fullName);
-            return _mapper.Map<IEnumerable<CustomerResult>>(getFullName);
+            var customer = _customerServices.GetAll(x => x.FullName == fullName);
+            return _mapper.Map<IEnumerable<CustomerResult>>(customer);
         }
 
-        public IEnumerable<CustomerResult> GetAllByEmail(string email)
+        public CustomerResult GetByEmail(string email)
         {
-            var getEmail = _customerServices.GetAll(x => x.Email == email);
-            return _mapper.Map<IEnumerable<CustomerResult>>(getEmail);
+            var customer = _customerServices.GetBy(x => x.Email == email);
+            return _mapper.Map<CustomerResult>(customer);
         }
 
-        public IEnumerable<CustomerResult> GetAllByCpf(string cpf)
+        public CustomerResult GetByCpf(string cpf)
         {
-            var getCpf =_customerServices.GetAll(x => x.Cpf == cpf);
-            return _mapper.Map<IEnumerable<CustomerResult>>(getCpf);
+            var customer =_customerServices.GetBy(x => x.Cpf == cpf);
+            return _mapper.Map<CustomerResult>(customer);
         }
     }
 }

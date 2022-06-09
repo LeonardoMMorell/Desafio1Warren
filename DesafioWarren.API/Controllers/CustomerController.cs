@@ -21,9 +21,7 @@ namespace DesafioWarren.API.Controllers
             return SafeAction(() =>
             {
                 var customers = _customerAppService.GetAll(null);
-                return !customers.Any()
-                    ? NotFound("No registered customer found")
-                    : Ok(customers);
+                return Ok(customers);
             }); 
         }
 
@@ -56,8 +54,8 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var EmailProtection = _customerAppService.GetAllByEmail(email);
-                return EmailProtection.FirstOrDefault() is null
+                var EmailProtection = _customerAppService.GetByEmail(email);
+                return EmailProtection is null
                     ? NotFound($"Client not found! For Email: {email}")
                     : Ok(EmailProtection);
             });
@@ -68,8 +66,8 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var CpfProtection = _customerAppService.GetAllByCpf(cpf);
-                return CpfProtection.FirstOrDefault() is null
+                var CpfProtection = _customerAppService.GetByCpf(cpf);
+                return CpfProtection is null
                     ? NotFound($"Client not found! For CPF: {cpf}")
                     : Ok(CpfProtection);
             });
@@ -78,7 +76,7 @@ namespace DesafioWarren.API.Controllers
         [HttpPost]
         public IActionResult Post(CreateCustomerRequest createcustomer)
         {
-            return SafeAction(() => 
+            return SafeAction(() =>
             {
                 var id = _customerAppService.Add(createcustomer);
                 return Created("~api/customer", "ID:" + id);

@@ -7,20 +7,19 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+var assemblies = new[] { Assembly.Load("AppServices") };
 builder.Services
     .AddControllers()
-    .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<CustomerCreateValidation>())
-    .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<CustomerUpdateValidation>());
+    .AddFluentValidation(config => config.RegisterValidatorsFromAssembly(assemblies.First()));
 
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<ICustomerServices, CustomerServices>();
 builder.Services.AddTransient<ICustomerAppService, CustomerAppService>();
-var assemblie = new[] { Assembly.Load("AppServices") };
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper((_, config) => config.AddMaps(assemblies), assemblies);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

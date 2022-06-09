@@ -11,10 +11,8 @@ namespace DomainServices.Profiles
         public CustomerProfile()
         {
             CreateMap<Customer, CustomerResult>();
-            CreateMap<List<Customer>, CustomerResult>();
             CreateMap<CreateCustomerRequest, Customer>();
             CreateMap<UpdateCustomerRequest, Customer>();
-
         }
     }
 }
