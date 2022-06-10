@@ -1,23 +1,62 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace AppServices
 {
     public static class ValidationExtensions
     {
-        public static bool IsValidDocument(this string cpf)
+        public static bool IsValidFullName(this string completFullName)
         {
-            var expression = "[0-9]{3}\\.?[0-9]{3}\\.?[0-9]{3}\\-?[0-9]{2}";
-            return Regex.Match(cpf, expression).Success;
+            string[] strings = completFullName.Trim().ToLower().Split(' ');
+            if (strings.Length > 1)
+            {
+                return true;
+            }
+            return false;
+
+
+
+            //if (completFullName.All(x => x >= 'a' && x <= 'z' ))
+            //{
+            //     return true;
+            //}
+            //completFullName.All(x => x != '0' && x != '9'); //return false; parei aqui
+            //return false;
         }
-        public static bool IsValidCellPhone(this string cellPhone)
+
+        public static bool ValidDigit(this char validDigit)
         {
-            var expression = "[0-9]{2}?[0-9]{4}?[0-9]{4}";
-            return Regex.Match(cellPhone, expression).Success;
+            char.IsLetter(validDigit);
+            return true;
         }
-        public static bool IsValidPostalCode(this string postalCode)
+
+        public static int ToIntAt(this string value, Index index)
         {
-            var expression = "[0-9]{5}\\-?[0-9]{3}";
-            return Regex.Match(postalCode, expression).Success;
+            var indexValue = index.IsFromEnd
+                ? value.Length - index.Value
+                : index.Value;
+
+            return (int)char.GetNumericValue(value, indexValue);
+        }
+
+        public static bool OnlyLetters(this string letters)
+        {
+            letters.ToLower().All(x => x >= 'a' && x <= 'z');
+            string.IsNullOrWhiteSpace(letters);
+            return letters.Length > 0;
+        }
+
+        public static bool OnlyNumbers(this string numbers)
+        {
+            return numbers.All(x => x >= '0' && x <= '9');
+        }
+
+        public static bool ApproveAge(this DateTime birthdate)
+        {
+            var idade = DateTime.UtcNow.Year - birthdate.Year;
+            if (idade >= 18) return true;
+            return false;
         }
     }
 }

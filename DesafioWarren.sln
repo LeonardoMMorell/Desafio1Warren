@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesafioWarren.API", "Desafi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{574BB8AF-F219-4C4E-A92A-D845D105CCA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModels", "DomainModels\DomainModels.csproj", "{47EE8F85-51CB-4A68-BAF2-689E346759E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainModels", "DomainModels\DomainModels.csproj", "{47EE8F85-51CB-4A68-BAF2-689E346759E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppServices", "AppServices\AppServices.csproj", "{DBBA6136-B4E2-4946-9965-B2E44E45D359}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppServices", "AppServices\AppServices.csproj", "{DBBA6136-B4E2-4946-9965-B2E44E45D359}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainServices", "DomainServices\DomainServices.csproj", "{AD0CD665-AC26-491B-834C-9329D98FD4EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainServices", "DomainServices\DomainServices.csproj", "{AD0CD665-AC26-491B-834C-9329D98FD4EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

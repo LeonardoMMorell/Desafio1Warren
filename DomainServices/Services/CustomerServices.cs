@@ -7,7 +7,7 @@ namespace DomainServices
 {
     public class CustomerServices : ICustomerServices
     {
-        private List<Customer> CustomersClients { get; set; } = new List<Customer>();
+        private List<Customer> CustomersClients = new();
 
         public List<Customer> GetAll(Predicate<Customer> predicate = null)
         {
@@ -21,8 +21,13 @@ namespace DomainServices
             return customer;
         }
 
-        public void Add(Customer customer)
+        public (bool validation, string errorMessage) Add(Customer customer)
         {
+            var method = CheckIfExists(customer);
+            if (method.exists)
+            {
+                return (false, method.errorMessage);
+            }
             int LastId = 0;
             if (CustomersClients.Count == 0)
             {
@@ -35,9 +40,10 @@ namespace DomainServices
                 customer.Id = LastId + 1;
                 CustomersClients.Add(customer);
             }
+            return (true, customer.Id.ToString());
         }
 
-        public bool DeleteCustomer(int id)
+        public bool Delete(int id)
         {
             var VariableDelete = GetBy(c => c.Id == id);
             if (VariableDelete == null) return false;
@@ -45,61 +51,35 @@ namespace DomainServices
             return true;
         }
 
-        public bool Update(int id, Customer CustomerUpdated)
+        public (bool validation, string errorMessage) Update(int id, Customer CustomerUpdated)
         {
-            var customer = GetBy(x => x.Id == id);
-            if (customer == null)
+            var customerVerify = CheckIfExists(CustomerUpdated);
+            var customerGetBy = GetBy(x => x.Id == id);
+            if (customerVerify.exists)
             {
-                return false;
+                return (false, customerVerify.errorMessage);
             }
-            customer.FullName = CustomerUpdated.FullName;
-            customer.Email = CustomerUpdated.Email;
-            customer.EmailConfirmation = CustomerUpdated.EmailConfirmation;
-            customer.Cpf = CustomerUpdated.Cpf;
-            customer.Cellphone = CustomerUpdated.Cellphone;
-            customer.Birthdate = CustomerUpdated.Birthdate;
-            customer.EmailSms = CustomerUpdated.EmailSms;
-            customer.Whatsapp = CustomerUpdated.Whatsapp;
-            customer.City = CustomerUpdated.City;
-            customer.Country = CustomerUpdated.Country;
-            customer.PostalCode = CustomerUpdated.PostalCode;
-            customer.Address = CustomerUpdated.Address;
-            customer.Number = CustomerUpdated.Number;
-            return true;
+            var indexCustomer = CustomersClients.IndexOf(CustomersClients.FirstOrDefault(customerGetBy));
+            if (indexCustomer is -1)
+            {
+                return (false, $"Not found id: {id}");
+            }
+            CustomersClients[indexCustomer] = CustomerUpdated;
+            return (true, customerGetBy.Id.ToString());
         }
 
-        public List<Customer> SearchId(int id)
+        private (bool exists, string errorMessage) CheckIfExists(Customer customer)
         {
-            return CustomersClients.FindAll(x => x.Id == id);
-        }
-        public List<Customer> SearchFullName(string FullName)
-        {
-            var customer = CustomersClients.FindAll(x => x.FullName == FullName);
-            if (customer.Count is 0)
+            var messageTemplate = "Customer exists for {0}: {1}";
+            if (CustomersClients.Any(x => x.Email.Equals(customer.Email)))
             {
-                return null;
+                return (true, string.Format(messageTemplate, "Email", customer.Email));
             }
-            return customer;
-        }
-
-        public List<Customer> SearchEmail(string Email)
-        {
-            var customer = CustomersClients.FindAll(x => x.Email == Email);
-            if (customer.Count is 0)
+            if (CustomersClients.Any(x => x.Cpf.Equals(customer.Cpf)))
             {
-                return null;
+                return (true, string.Format(messageTemplate, "Cpf", customer.Cpf));
             }
-            return customer;
-        }
-
-        public List<Customer> SearchCpf(string Cpf)
-        {
-            var customer = CustomersClients.FindAll(x => x.Cpf == Cpf);
-            if (customer.Count is 0)
-            {
-                return null;
-            }
-            return customer;
+            return default;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using DomainModels;
+﻿using AppServices.Dtos;
+using DomainModels;
+using DomainServices.Dtos;
 using System;
 using System.Collections.Generic;
 
@@ -6,14 +8,14 @@ namespace AppServices
 {
     public interface ICustomerAppService
     {
-        void Add(Customer customer);
-        bool DeleteCustomer(int id);
-        List<Customer> GetAll(Predicate<Customer> predicate = null);
-        Customer GetBy(Func<Customer, bool> predicate);
-        List<Customer> GetAllByCpf(string cpf);
-        List<Customer> GetAllByEmail(string email);
-        List<Customer> GetAllByFullName(string fullName);
-        Customer GetById(int id);
-        bool Update(int id, Customer CustomerUpdated);
+        (bool validation, string errorMessage) Add(CreateCustomerRequest model);
+        bool Delete(int id);
+        IEnumerable<CustomerResult> GetAll(Predicate<Customer> predicate);
+        CustomerResult GetBy(Func<Customer, bool> predicate);
+        CustomerResult GetByCpf(string cpf);
+        CustomerResult GetByEmail(string email);
+        IEnumerable<CustomerResult> GetAllByFullName(string fullName);
+        CustomerResult GetById(int id);
+        public (bool validation, string errorMessage) Update(int id, UpdateCustomerRequest customerDtoUpdated);
     }
 }
