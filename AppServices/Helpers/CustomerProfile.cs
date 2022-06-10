@@ -2,7 +2,6 @@
 using AutoMapper;
 using DomainModels;
 using DomainServices.Dtos;
-using System.Collections.Generic;
 
 namespace DomainServices.Profiles
 {

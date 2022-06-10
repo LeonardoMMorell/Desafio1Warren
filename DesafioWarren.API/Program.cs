@@ -1,13 +1,12 @@
 using AppServices;
-using AppServices.Validators;
 using DomainServices;
-using FluentValidation.AspNetCore;
 using System.Reflection;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var assemblies = new[] { Assembly.Load("AppServices") };
+var assemblies = new[] { Assembly.Load("AppServices")};
 builder.Services
     .AddControllers()
     .AddFluentValidation(config => config.RegisterValidatorsFromAssembly(assemblies.First()));
