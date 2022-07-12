@@ -1,11 +1,13 @@
 ﻿using System;
 
-namespace AppServices.Dtos
+namespace Application.Dtos
 {
     public class UpdateCustomerRequest
     {
-        public string FullName { get; set; }
+        public int Id { get; set; }
+        public string Fullname { get; set; }
         public string Email { get; set; }
+        public string EmailConfirmation{ get; set; }
         public string Cpf { get; set; }
         public string Cellphone { get; set; }
         public DateTime Birthdate { get; set; }

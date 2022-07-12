@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace AppServices.Dtos
+namespace Application.Dtos
 {
     public class CreateCustomerRequest
     {
         public string Id { get; set; }
-        public string FullName { get; set; }
+        public string Fullname { get; set; }
         public string Email { get; set; }
         public string EmailConfirmation { get; set; }
         public string Cpf { get; set; }
