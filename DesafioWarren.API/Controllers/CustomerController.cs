@@ -1,6 +1,9 @@
-﻿using AppServices;
-using AppServices.Dtos;
+﻿using Application.Dtos;
+using AppServices.ServicesApplication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 
 namespace DesafioWarren.API.Controllers
 {
@@ -38,14 +41,14 @@ namespace DesafioWarren.API.Controllers
         }
 
         [HttpGet("getByFullName/{fullname}")]
-        public IActionResult GetByFullName(string fullName)
+        public IActionResult GetByFullName(string fullname)
         {
             return SafeAction(() =>
             {
-                var FullNameProtection = _customerAppService.GetAllByFullName(fullName);
-                return FullNameProtection.FirstOrDefault() is null
-                    ? NotFound($"Client not found! For FullName: {fullName}")
-                    : Ok(FullNameProtection);
+                var fullnameProtection = _customerAppService.GetAllByFullname(fullname);
+                return fullnameProtection.FirstOrDefault() is null
+                    ? NotFound($"Client not found! For FullName: {fullname}")
+                    : Ok(fullnameProtection);
             });
         }
 
@@ -54,10 +57,10 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var EmailProtection = _customerAppService.GetByEmail(email);
-                return EmailProtection is null
+                var emailProtection = _customerAppService.GetByEmail(email);
+                return emailProtection is null
                     ? NotFound($"Client not found! For Email: {email}")
-                    : Ok(EmailProtection);
+                    : Ok(emailProtection);
             });
         }
 
@@ -66,10 +69,10 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var CpfProtection = _customerAppService.GetByCpf(cpf);
-                return CpfProtection is null
+                var cpfProtection = _customerAppService.GetByCpf(cpf);
+                return cpfProtection is null
                     ? NotFound($"Client not found! For CPF: {cpf}")
-                    : Ok(CpfProtection);
+                    : Ok(cpfProtection);
             });
         }
 
@@ -88,12 +91,14 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var updatedCustomer = _customerAppService.Update(id, customerUp);
+                customerUp.Id = id;
+                var updatedCustomer = _customerAppService.Update(customerUp);
                 return updatedCustomer.validation
                     ? Ok()
                     : NotFound(updatedCustomer.errorMessage);
             });
         }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

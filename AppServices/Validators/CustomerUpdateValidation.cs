@@ -1,35 +1,40 @@
-﻿using AppServices.Dtos;
+﻿using Application.Dtos;
+using Application.Validators.ValidationExtensions;
 using FluentValidation;
 using FluentValidation.Validators;
 using System;
 
-namespace AppServices.Validators
+namespace Application.Validators
 {
     public class CustomerUpdateValidation : AbstractValidator<UpdateCustomerRequest>
     {
         public CustomerUpdateValidation()
         {
-            RuleFor(x => x.FullName)
+            RuleFor(x => x.Fullname)
                 .NotEmpty()
                 .NotNull()
-                .Must(x => x.IsValidFullName())
+                .Must(x => x.IsValidFullname())
                 .MaximumLength(300)
                 .MinimumLength(2);
 
             RuleFor(x => x.Email)
                 .NotEmpty()
+                .MaximumLength(256)
                 .NotNull()
                 .EmailAddress(EmailValidationMode.Net4xRegex);
 
+            RuleFor(x => x.EmailConfirmation.Equals(x.Email));
+
             RuleFor(x => x.Cpf)
                 .NotEmpty()
+                .NotNull()
                 .Must(ValidateCpf)
                 .Length(11);
 
             RuleFor(x => x.Cellphone)
                 .NotEmpty()
                 .NotNull()
-                .Must(x => x.OnlyNumbers())
+                .Must(x => x.ChecksIfTheFirstCharactersAreTheSame())
                 .Length(11);
 
             RuleFor(x => x.Birthdate)
@@ -40,12 +45,14 @@ namespace AppServices.Validators
 
             RuleFor(x => x.Country)
                 .NotNull()
-                .Must(x => x.OnlyLetters())
+                .MaximumLength(52)
+                .Must(v => v.OnlyLetters())
                 .NotEmpty();
 
             RuleFor(x => x.City)
                 .NotNull()
-                .Must(x => x.OnlyLetters())
+                .MaximumLength(52)
+                .Must(v => v.OnlyLetters())
                 .NotEmpty();
 
             RuleFor(x => x.PostalCode)
@@ -56,11 +63,13 @@ namespace AppServices.Validators
 
             RuleFor(x => x.Address)
                 .NotNull()
-                .Must(x => x.OnlyLetters())
+                .MaximumLength(100)
+                .Must(v => v.OnlyLetters())
                 .NotEmpty();
 
             RuleFor(x => x.Number)
                 .NotNull()
+                .GreaterThan(0)
                 .NotEmpty();
         }
         private static bool ValidateCpf(string cpf)

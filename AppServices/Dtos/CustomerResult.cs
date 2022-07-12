@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace DomainServices.Dtos
+﻿namespace Application.Dtos
 {
     public class CustomerResult
     {
-        public string FullName { get; set; }
-        public string Email { get; set; }
-        public string Cpf { get; set; }
-        public string Country { get; set; }
-        public string City { get; set; }
+        public string Fullname { get; private set; }
+        public string Email { get; private set; }
+        public string Cpf { get; private set; }
+        public string Country { get; private set; }
+        public string City { get; private set; }
     }
 }

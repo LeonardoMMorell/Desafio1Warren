@@ -1,10 +1,9 @@
-﻿using AppServices.Dtos;
+﻿using Application.Dtos;
 using DomainModels;
-using DomainServices.Dtos;
 using System;
 using System.Collections.Generic;
 
-namespace AppServices
+namespace AppServices.ServicesApplication
 {
     public interface ICustomerAppService
     {
@@ -14,8 +13,8 @@ namespace AppServices
         CustomerResult GetBy(Func<Customer, bool> predicate);
         CustomerResult GetByCpf(string cpf);
         CustomerResult GetByEmail(string email);
-        IEnumerable<CustomerResult> GetAllByFullName(string fullName);
+        IEnumerable<CustomerResult> GetAllByFullname(string fullname);
         CustomerResult GetById(int id);
-        public (bool validation, string errorMessage) Update(int id, UpdateCustomerRequest customerDtoUpdated);
+        public (bool validation, string errorMessage) Update(UpdateCustomerRequest customerDtoUpdated);
     }
 }

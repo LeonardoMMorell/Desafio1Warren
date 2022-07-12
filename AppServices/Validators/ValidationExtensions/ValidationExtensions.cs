@@ -1,34 +1,40 @@
 ﻿using System;
 using System.Linq;
-using System.Text.RegularExpressions;
 
-namespace AppServices
+namespace Application.Validators.ValidationExtensions
 {
     public static class ValidationExtensions
     {
-        public static bool IsValidFullName(this string completFullName)
+        public static bool IsValidFullname(this string completFullname)
         {
-            string[] strings = completFullName.Trim().ToLower().Split(' ');
-            if (strings.Length > 1)
-            {
-                return true;
-            }
-            return false;
+            string[] stringLimiting = completFullname.Split(' ');
 
+            if (IsValidString(completFullname)) return false;
 
-
-            //if (completFullName.All(x => x >= 'a' && x <= 'z' ))
-            //{
-            //     return true;
-            //}
-            //completFullName.All(x => x != '0' && x != '9'); //return false; parei aqui
-            //return false;
+            return stringLimiting.Length > 1 && stringLimiting.Length < 7;
         }
 
-        public static bool ValidDigit(this char validDigit)
+        public static bool IsValidString(this string letter)
         {
-            char.IsLetter(validDigit);
+            //    if (letter.Trim() != letter
+            //        || letter.Split(' ').Contains("")
+            //        || letter.Split(' ').Any(_ => !char.IsUpper(_.First()))) return false;
+
+            //    letter = letter.Replace(" ", string.Empty);
+            //    if (ChecksIfTheFirstCharactersAreTheSame(letter)) return false;
+
+            //    return letter.All(x => char.IsLetter(x));
+            if (ChecksIfTheFirstCharactersAreTheSame(letter)
+                || letter.Trim() != letter
+                || letter.Split(' ').Contains("")
+                || letter.Split(' ').Any(_ => !char.IsUpper(_.First()))) return false;
+
             return true;
+        }
+
+        public static bool ChecksIfTheFirstCharactersAreTheSame(this string characters)
+        {
+            return !characters.All(c => c.Equals(characters.First()));
         }
 
         public static int ToIntAt(this string value, Index index)
@@ -40,23 +46,24 @@ namespace AppServices
             return (int)char.GetNumericValue(value, indexValue);
         }
 
-        public static bool OnlyLetters(this string letters)
-        {
-            letters.ToLower().All(x => x >= 'a' && x <= 'z');
-            string.IsNullOrWhiteSpace(letters);
-            return letters.Length > 0;
-        }
-
         public static bool OnlyNumbers(this string numbers)
         {
             return numbers.All(x => x >= '0' && x <= '9');
         }
 
+        public static bool OnlyLetters(this string letters)
+        {
+            letters.ToLower().All(x => x >= 'a' && x <= 'z');
+            string.IsNullOrWhiteSpace(letters);
+            return letters.Length > 0;
+        } 
+
         public static bool ApproveAge(this DateTime birthdate)
         {
-            var idade = DateTime.UtcNow.Year - birthdate.Year;
-            if (idade >= 18) return true;
-            return false;
+            var idade = new DateTime(DateTime.Now.Subtract(birthdate).Ticks).Year - 1;
+            return idade >= 18
+                ? true
+                : false;
         }
     }
 }
