@@ -6,7 +6,6 @@ namespace DomainModels
     {
         protected Customer() { }
 
-
         public Customer(int id,
             string fullname,
             string email,
@@ -21,7 +20,7 @@ namespace DomainModels
             string postalcode,
             string address,
             int number)
-        {
+        { 
             Id = id;
             Fullname = fullname;
             Email = email;

@@ -13,7 +13,7 @@ namespace DomainServices
 
         public CustomerServices(DatabaseDbContext dbContext)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
         public IEnumerable<Customer> GetAll(Predicate<Customer> predicate = null)

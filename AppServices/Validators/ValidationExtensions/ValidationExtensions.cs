@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace Application.Validators.ValidationExtensions
 {
@@ -14,18 +13,9 @@ namespace Application.Validators.ValidationExtensions
 
             return stringLimiting.Length > 1 && stringLimiting.Length < 7;
         }
-            return false;
 
         public static bool IsValidString(this string letter)
         {
-            //    if (letter.Trim() != letter
-            //        || letter.Split(' ').Contains("")
-            //        || letter.Split(' ').Any(_ => !char.IsUpper(_.First()))) return false;
-
-            //    letter = letter.Replace(" ", string.Empty);
-            //    if (ChecksIfTheFirstCharactersAreTheSame(letter)) return false;
-
-            //    return letter.All(x => char.IsLetter(x));
             if (ChecksIfTheFirstCharactersAreTheSame(letter)
                 || letter.Trim() != letter
                 || letter.Split(' ').Contains("")
@@ -59,11 +49,6 @@ namespace Application.Validators.ValidationExtensions
             string.IsNullOrWhiteSpace(letters);
             return letters.Length > 0;
         } 
-
-        public static bool OnlyNumbers(this string numbers)
-        {
-            return numbers.All(x => x >= '0' && x <= '9');
-        }
 
         public static bool ApproveAge(this DateTime birthdate)
         {

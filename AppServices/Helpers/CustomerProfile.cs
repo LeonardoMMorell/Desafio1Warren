@@ -1,7 +1,6 @@
 ﻿using Application.Dtos;
 using AutoMapper;
 using DomainModels;
-using DomainServices.Dtos;
 
 namespace Application.Profiles
 {
