@@ -4,7 +4,7 @@ using DomainModels;
 using System;
 using System.Collections.Generic;
 
-namespace AppServices.Services
+namespace Application
 {
     public interface ICustomerAppService
     {

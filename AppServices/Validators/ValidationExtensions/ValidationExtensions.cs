@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace ApplicationModels.Validators.ValidationExtensions
+namespace Application.Validators.ValidationExtensions
 {
     public static class ValidationExtensions
     {

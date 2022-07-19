@@ -1,10 +1,10 @@
-﻿using ApplicationModels.Requests;
-using ApplicationModels.Validators.ValidationExtensions;
+﻿using Application.Validators.ValidationExtensions;
+using ApplicationModels.Requests;
 using FluentValidation;
 using FluentValidation.Validators;
 using System;
 
-namespace ApplicationModels.Validators
+namespace Application.Validators
 {
     public class CustomerCreateValidation : AbstractValidator<CreateCustomerRequest>
     {

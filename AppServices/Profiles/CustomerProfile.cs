@@ -3,7 +3,7 @@ using ApplicationModels.Responses;
 using AutoMapper;
 using DomainModels;
 
-namespace ApplicationModels.Profiles
+namespace Application.Profiles
 {
     public class CustomerProfile : Profile
     {

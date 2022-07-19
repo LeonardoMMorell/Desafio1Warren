@@ -6,7 +6,7 @@ using DomainServices;
 using System;
 using System.Collections.Generic;
 
-namespace AppServices.Services
+namespace Application.Services
 {
     public class CustomerAppService : ICustomerAppService
     {

@@ -7,12 +7,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Infrastructure.Data.Context;
-using AppServices.Services;
+using Application.Services;
+using Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var assembly = Assembly.Load("AppServices");
+var assembly = Assembly.Load("Application");
 builder.Services
     .AddControllers(); 
 
