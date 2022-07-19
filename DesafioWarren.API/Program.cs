@@ -8,7 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Infrastructure.Data.Context;
 using Application.Services;
-using Application;
+using Application.Interfaces;
+using DomainServices.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

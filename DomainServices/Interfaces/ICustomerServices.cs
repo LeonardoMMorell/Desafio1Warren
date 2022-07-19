@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DomainServices
+namespace DomainServices.Interfaces
 {
     public interface ICustomerServices
     {

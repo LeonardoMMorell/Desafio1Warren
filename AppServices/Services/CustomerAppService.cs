@@ -1,8 +1,9 @@
-﻿using ApplicationModels.Requests;
+﻿using Application.Interfaces;
+using ApplicationModels.Requests;
 using ApplicationModels.Responses;
 using AutoMapper;
 using DomainModels;
-using DomainServices;
+using DomainServices.Interfaces;
 using System;
 using System.Collections.Generic;
 

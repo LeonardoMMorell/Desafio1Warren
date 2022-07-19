@@ -1,9 +1,9 @@
 ﻿using ApplicationModels.Requests;
-using Application;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using Application.Interfaces;
 
 namespace DesafioWarren.API.Controllers
 {
