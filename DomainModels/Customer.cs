@@ -7,7 +7,7 @@ namespace DomainModels
         protected Customer() { }
 
         public Customer(int id,
-            string fullname,
+            string fullName,
             string email,
             string emailConfirmation,
             string cpf,
@@ -20,9 +20,9 @@ namespace DomainModels
             string postalcode,
             string address,
             int number)
-        { 
+        {
             Id = id;
-            Fullname = fullname;
+            FullName = fullName;
             Email = email;
             EmailConfirmation = emailConfirmation;
             Cpf = cpf;
@@ -38,7 +38,7 @@ namespace DomainModels
         }
 
         public int Id { get; set; }
-        public string Fullname { get; set; }
+        public string FullName { get; set; }
         public string Email { get; set; }
         public string EmailConfirmation { get; set; }
         public string Cpf { get; set; }

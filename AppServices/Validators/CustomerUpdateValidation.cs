@@ -1,16 +1,16 @@
-﻿using Application.Dtos;
-using Application.Validators.ValidationExtensions;
+﻿using ApplicationModels.Requests;
+using ApplicationModels.Validators.ValidationExtensions;
 using FluentValidation;
 using FluentValidation.Validators;
 using System;
 
-namespace Application.Validators
+namespace ApplicationModels.Validators
 {
     public class CustomerUpdateValidation : AbstractValidator<UpdateCustomerRequest>
     {
         public CustomerUpdateValidation()
         {
-            RuleFor(x => x.Fullname)
+            RuleFor(x => x.FullName)
                 .NotEmpty()
                 .NotNull()
                 .Must(x => x.IsValidFullname())
@@ -22,8 +22,6 @@ namespace Application.Validators
                 .MaximumLength(256)
                 .NotNull()
                 .EmailAddress(EmailValidationMode.Net4xRegex);
-
-            RuleFor(x => x.EmailConfirmation.Equals(x.Email));
 
             RuleFor(x => x.Cpf)
                 .NotEmpty()

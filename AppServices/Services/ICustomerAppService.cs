@@ -1,9 +1,10 @@
-﻿using Application.Dtos;
+﻿using ApplicationModels.Requests;
+using ApplicationModels.Responses;
 using DomainModels;
 using System;
 using System.Collections.Generic;
 
-namespace AppServices.ServicesApplication
+namespace AppServices.Services
 {
     public interface ICustomerAppService
     {
@@ -15,6 +16,6 @@ namespace AppServices.ServicesApplication
         CustomerResult GetByEmail(string email);
         IEnumerable<CustomerResult> GetAllByFullname(string fullname);
         CustomerResult GetById(int id);
-        public (bool validation, string errorMessage) Update(UpdateCustomerRequest customerDtoUpdated);
+        public (bool validation, string errorMessage) Update(int id, UpdateCustomerRequest customerDtoUpdated);
     }
 }

@@ -15,7 +15,7 @@ namespace Infrastructure.Data.Mappings
             builder.Property(x => x.Id)
                 .ValueGeneratedOnAdd();
 
-            builder.Property(x => x.Fullname)
+            builder.Property(x => x.FullName)
                 .HasColumnType("varchar(300)")
                 .IsRequired();
 

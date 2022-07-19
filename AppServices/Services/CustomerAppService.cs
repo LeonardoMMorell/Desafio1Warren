@@ -1,11 +1,12 @@
-﻿using Application.Dtos;
+﻿using ApplicationModels.Requests;
+using ApplicationModels.Responses;
 using AutoMapper;
 using DomainModels;
 using DomainServices;
 using System;
 using System.Collections.Generic;
 
-namespace AppServices.ServicesApplication
+namespace AppServices.Services
 {
     public class CustomerAppService : ICustomerAppService
     {
@@ -45,9 +46,10 @@ namespace AppServices.ServicesApplication
             return _customerServices.Delete(id);
         }
 
-        public (bool validation, string errorMessage) Update(UpdateCustomerRequest modelUpdated)
+        public (bool validation, string errorMessage) Update(int id, UpdateCustomerRequest modelUpdated)
         {
             var customer = _mapper.Map<Customer>(modelUpdated);
+            customer.Id = id;
             return _customerServices.Update(customer);
         }
 
@@ -59,7 +61,7 @@ namespace AppServices.ServicesApplication
 
         public IEnumerable<CustomerResult> GetAllByFullname(string fullname)
         {
-            var customer = _customerServices.GetAll(x => x.Fullname == fullname);
+            var customer = _customerServices.GetAll(x => x.FullName == fullname);
             return _mapper.Map<IEnumerable<CustomerResult>>(customer);
         }
 

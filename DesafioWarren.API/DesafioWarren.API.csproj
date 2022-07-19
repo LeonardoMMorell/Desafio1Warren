@@ -2,28 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
-    <UserSecretsId>c7895611-2e4b-499f-aa08-b067c30d8f1c</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
 	<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
 	<PackageReference Include="FluentValidation.AspNetCore" Version="11.1.2" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.7" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.7">
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.7">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>
-	<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AppServices\AppServices.csproj" />
-    <ProjectReference Include="..\Infrastructure.Data\Infrastructure.Data.csproj" />
   </ItemGroup>
-
-  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="stop" /></VisualStudio></ProjectExtensions>
 
 </Project>

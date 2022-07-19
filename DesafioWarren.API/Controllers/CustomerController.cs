@@ -1,5 +1,5 @@
-﻿using Application.Dtos;
-using AppServices.ServicesApplication;
+﻿using ApplicationModels.Requests;
+using AppServices.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -41,13 +41,13 @@ namespace DesafioWarren.API.Controllers
         }
 
         [HttpGet("getByFullName/{fullname}")]
-        public IActionResult GetByFullName(string fullname)
+        public IActionResult GetByFullName(string fullName)
         {
             return SafeAction(() =>
             {
-                var fullnameProtection = _customerAppService.GetAllByFullname(fullname);
+                var fullnameProtection = _customerAppService.GetAllByFullname(fullName);
                 return fullnameProtection.FirstOrDefault() is null
-                    ? NotFound($"Client not found! For FullName: {fullname}")
+                    ? NotFound($"Client not found! For FullName: {fullName}")
                     : Ok(fullnameProtection);
             });
         }
@@ -91,8 +91,7 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                customerUp.Id = id;
-                var updatedCustomer = _customerAppService.Update(customerUp);
+                var updatedCustomer = _customerAppService.Update(id, customerUp);
                 return updatedCustomer.validation
                     ? Ok()
                     : NotFound(updatedCustomer.errorMessage);
@@ -109,6 +108,7 @@ namespace DesafioWarren.API.Controllers
                     : NoContent();            
             });
         }
+
         private IActionResult SafeAction(Func<IActionResult> action)
         {
             try

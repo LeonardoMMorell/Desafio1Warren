@@ -1,16 +1,16 @@
-﻿using Application.Dtos;
-using Application.Validators.ValidationExtensions;
+﻿using ApplicationModels.Requests;
+using ApplicationModels.Validators.ValidationExtensions;
 using FluentValidation;
 using FluentValidation.Validators;
 using System;
 
-namespace Application.Validators
+namespace ApplicationModels.Validators
 {
     public class CustomerCreateValidation : AbstractValidator<CreateCustomerRequest>
     {
         public CustomerCreateValidation()
         {
-            RuleFor(x => x.Fullname)
+            RuleFor(x => x.FullName)
                 .NotEmpty()
                 .NotNull()
                 .Must(x => x.IsValidFullname())

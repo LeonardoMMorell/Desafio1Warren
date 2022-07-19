@@ -7,10 +7,10 @@
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="11.0.1" />
 		<PackageReference Include="FluentValidation" Version="11.1.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.7" />
 	</ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ApplicationModels\ApplicationModels.csproj" />
     <ProjectReference Include="..\DomainServices\DomainServices.csproj" />
   </ItemGroup>
 

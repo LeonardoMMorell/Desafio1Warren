@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Application.Validators.ValidationExtensions
+namespace ApplicationModels.Validators.ValidationExtensions
 {
     public static class ValidationExtensions
     {
@@ -52,10 +52,8 @@ namespace Application.Validators.ValidationExtensions
 
         public static bool ApproveAge(this DateTime birthdate)
         {
-            var idade = new DateTime(DateTime.Now.Subtract(birthdate).Ticks).Year - 1;
-            return idade >= 18
-                ? true
-                : false;
+            var yearsOld = new DateTime(DateTime.Now.Subtract(birthdate).Ticks).Year - 1;
+            return yearsOld >= 18;
         }
     }
 }

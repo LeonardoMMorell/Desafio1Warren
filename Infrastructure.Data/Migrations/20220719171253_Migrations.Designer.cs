@@ -11,14 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(DatabaseDbContext))]
-    [Migration("20220707185841_inicial")]
-    partial class inicial
+    [Migration("20220719171253_Migrations")]
+    partial class Migrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.6")
+                .HasAnnotation("ProductVersion", "6.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("DomainModels.Customer", b =>
@@ -28,25 +28,31 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
 
                     b.Property<DateTime>("Birthdate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Cellphone")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("varchar(11)");
 
                     b.Property<string>("City")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("varchar(52)");
 
                     b.Property<string>("Country")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("varchar(52)");
 
                     b.Property<string>("Cpf")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("varchar(11)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("EmailConfirmation")
                         .HasColumnType("longtext");
@@ -55,20 +61,22 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("FullName")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("varchar(300)");
 
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
                     b.Property<string>("PostalCode")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("varchar(8)");
 
                     b.Property<bool>("Whatsapp")
                         .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customer", (string)null);
                 });
 #pragma warning restore 612, 618
         }

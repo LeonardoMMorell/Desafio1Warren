@@ -7,21 +7,24 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Infrastructure.Data.Context;
-using AppServices.ServicesApplication;
+using AppServices.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var assembly = Assembly.Load("AppServices");
 builder.Services
-    .AddDbContext<DatabaseDbContext>(options =>
-    {
-        options.UseMySql(builder.Configuration.GetConnectionString("Default"),
-                    ServerVersion.Parse("8.0.29-mysql"),
-                    config => config.MigrationsAssembly("Infrastructure.Data"));
-    })
-    .AddControllers()
-    .AddFluentValidation(config => config.RegisterValidatorsFromAssembly(assembly));
+    .AddControllers(); 
+
+builder.Services.AddDbContext<DatabaseDbContext>(options =>
+{
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("Default"),
+        ServerVersion.Parse("8.0.29-mysql"),
+        config => config.MigrationsAssembly("Infrastructure.Data"));
+});
+
+builder.Services.AddFluentValidation(config => config.RegisterValidatorsFromAssembly(assembly));
 
 builder.Services.AddTransient<ICustomerServices, CustomerServices>();
 builder.Services.AddTransient<ICustomerAppService, CustomerAppService>();
