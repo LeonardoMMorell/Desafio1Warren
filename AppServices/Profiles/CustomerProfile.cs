@@ -1,9 +1,9 @@
-﻿using AppServices.Dtos;
+﻿using ApplicationModels.Requests;
+using ApplicationModels.Responses;
 using AutoMapper;
 using DomainModels;
-using DomainServices.Dtos;
 
-namespace DomainServices.Profiles
+namespace Application.Profiles
 {
     public class CustomerProfile : Profile
     {

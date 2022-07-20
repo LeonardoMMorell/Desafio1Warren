@@ -1,9 +1,10 @@
-﻿using AppServices.Dtos;
+﻿using Application.Validators.ValidationExtensions;
+using ApplicationModels.Requests;
 using FluentValidation;
 using FluentValidation.Validators;
 using System;
 
-namespace AppServices.Validators
+namespace Application.Validators
 {
     public class CustomerCreateValidation : AbstractValidator<CreateCustomerRequest>
     {
@@ -18,6 +19,7 @@ namespace AppServices.Validators
 
             RuleFor(x => x.Email)
                 .NotEmpty()
+                .MaximumLength(256)
                 .NotNull()
                 .EmailAddress(EmailValidationMode.Net4xRegex);
 
@@ -25,13 +27,14 @@ namespace AppServices.Validators
 
             RuleFor(x => x.Cpf)
                 .NotEmpty()
+                .NotNull()
                 .Must(ValidateCpf)
                 .Length(11);
 
             RuleFor(x => x.Cellphone)
                 .NotEmpty()
                 .NotNull()
-                .Must(x => x.OnlyNumbers())
+                .Must(x => x.ChecksIfTheFirstCharactersAreTheSame())
                 .Length(11);
 
             RuleFor(x => x.Birthdate)
@@ -42,12 +45,14 @@ namespace AppServices.Validators
 
             RuleFor(x => x.Country)
                 .NotNull()
-                .Must(x => x.OnlyLetters())
+                .MaximumLength(52)
+                .Must(v => v.OnlyLetters())
                 .NotEmpty();
 
             RuleFor(x => x.City)
                 .NotNull()
-                .Must(x => x.OnlyLetters())
+                .MaximumLength(52)
+                .Must(v => v.OnlyLetters())
                 .NotEmpty();
 
             RuleFor(x => x.PostalCode)
@@ -58,11 +63,13 @@ namespace AppServices.Validators
 
             RuleFor(x => x.Address)
                 .NotNull()
-                .Must(x => x.OnlyLetters())
+                .MaximumLength(100)
+                .Must(v => v.OnlyLetters())
                 .NotEmpty();
 
             RuleFor(x => x.Number)
                 .NotNull()
+                .GreaterThan(0)
                 .NotEmpty();
         }
 

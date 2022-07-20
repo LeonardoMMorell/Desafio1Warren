@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  mysql:
+    image: mysql
+    container_name: mysqlWarren
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=DesafioWarrenDB
+      - MYSQL_ROOT_PASSWORD=Warren15

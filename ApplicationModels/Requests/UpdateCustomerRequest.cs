@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AppServices.Dtos
+namespace ApplicationModels.Requests
 {
     public class UpdateCustomerRequest
     {

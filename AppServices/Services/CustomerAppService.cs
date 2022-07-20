@@ -1,12 +1,13 @@
-﻿using AppServices.Dtos;
+﻿using Application.Interfaces;
+using ApplicationModels.Requests;
+using ApplicationModels.Responses;
 using AutoMapper;
 using DomainModels;
-using DomainServices;
-using DomainServices.Dtos;
+using DomainServices.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace AppServices
+namespace Application.Services
 {
     public class CustomerAppService : ICustomerAppService
     {
@@ -49,18 +50,19 @@ namespace AppServices
         public (bool validation, string errorMessage) Update(int id, UpdateCustomerRequest modelUpdated)
         {
             var customer = _mapper.Map<Customer>(modelUpdated);
-            return _customerServices.Update(id, customer);
+            customer.Id = id;
+            return _customerServices.Update(customer);
         }
 
         public CustomerResult GetById(int id)
         {
-            var customer =_customerServices.GetBy(x => x.Id == id);
+            var customer = _customerServices.GetBy(x => x.Id == id);
             return _mapper.Map<CustomerResult>(customer);
         }
 
-        public IEnumerable<CustomerResult> GetAllByFullName(string fullName)
+        public IEnumerable<CustomerResult> GetAllByFullname(string fullname)
         {
-            var customer = _customerServices.GetAll(x => x.FullName == fullName);
+            var customer = _customerServices.GetAll(x => x.FullName == fullname);
             return _mapper.Map<IEnumerable<CustomerResult>>(customer);
         }
 
@@ -72,7 +74,7 @@ namespace AppServices
 
         public CustomerResult GetByCpf(string cpf)
         {
-            var customer =_customerServices.GetBy(x => x.Cpf == cpf);
+            var customer = _customerServices.GetBy(x => x.Cpf == cpf);
             return _mapper.Map<CustomerResult>(customer);
         }
     }

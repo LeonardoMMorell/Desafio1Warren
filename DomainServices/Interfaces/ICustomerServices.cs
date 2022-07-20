@@ -2,14 +2,14 @@
 using System;
 using System.Collections.Generic;
 
-namespace DomainServices
+namespace DomainServices.Interfaces
 {
     public interface ICustomerServices
     {
         public (bool validation, string errorMessage) Add(Customer customer);
-        List<Customer> GetAll(Predicate<Customer> predicate = null);
+        IEnumerable<Customer> GetAll(Predicate<Customer> predicate = null);
         Customer GetBy(Func<Customer, bool> predicate);
-        public (bool validation, string errorMessage) Update(int id, Customer CustomerUpdated);
+        public (bool validation, string errorMessage) Update(Customer CustomerUpdated);
         bool Delete(int id);
     }
 }

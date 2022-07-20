@@ -1,7 +1,6 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace AppServices.Dtos
+namespace ApplicationModels.Requests
 {
     public class CreateCustomerRequest
     {

@@ -1,6 +1,9 @@
-﻿using AppServices;
-using AppServices.Dtos;
+﻿using ApplicationModels.Requests;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using Application.Interfaces;
 
 namespace DesafioWarren.API.Controllers
 {
@@ -30,10 +33,9 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var IdProtection = _customerAppService.GetById(id);
-                return IdProtection is null
-                    ? NotFound($"Client not found! for id: {id}")
-                    : Ok(IdProtection);
+                return _customerAppService.GetBy(x => x.Id == id) is null
+                    ? NotFound($"Client not found! For Id: {id}")
+                    : Ok(_customerAppService.GetBy(x => x.Id == id));
             });
         }
 
@@ -42,10 +44,9 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var FullNameProtection = _customerAppService.GetAllByFullName(fullName);
-                return FullNameProtection.FirstOrDefault() is null
+                return !_customerAppService.GetAll(x => x.FullName.Contains(fullName)).Any()
                     ? NotFound($"Client not found! For FullName: {fullName}")
-                    : Ok(FullNameProtection);
+                    : Ok(_customerAppService.GetAll(x => x.FullName.Contains(fullName)));
             });
         }
 
@@ -54,10 +55,9 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var EmailProtection = _customerAppService.GetByEmail(email);
-                return EmailProtection is null
-                    ? NotFound($"Client not found! For Email: {email}")
-                    : Ok(EmailProtection);
+                return _customerAppService.GetByEmail(email) is null
+                   ? NotFound($"Client not found! For Email: {email}")
+                   : Ok(_customerAppService.GetByEmail(email));
             });
         }
 
@@ -66,10 +66,9 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var CpfProtection = _customerAppService.GetByCpf(cpf);
-                return CpfProtection is null
-                    ? NotFound($"Client not found! For CPF: {cpf}")
-                    : Ok(CpfProtection);
+                return _customerAppService.GetByCpf(cpf) is null
+                   ? NotFound($"Client not found! For Cpf: {cpf}")
+                   : Ok(_customerAppService.GetByCpf(cpf));
             });
         }
 
@@ -94,6 +93,7 @@ namespace DesafioWarren.API.Controllers
                     : NotFound(updatedCustomer.errorMessage);
             });
         }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -104,6 +104,7 @@ namespace DesafioWarren.API.Controllers
                     : NoContent();            
             });
         }
+
         private IActionResult SafeAction(Func<IActionResult> action)
         {
             try

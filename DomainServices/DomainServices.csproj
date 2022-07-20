@@ -4,9 +4,9 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
-
   <ItemGroup>
     <ProjectReference Include="..\DomainModels\DomainModels.csproj" />
+    <ProjectReference Include="..\Infrastructure.Data\Infrastructure.Data.csproj" />
   </ItemGroup>
 
 </Project>

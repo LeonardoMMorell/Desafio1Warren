@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DomainServices.Dtos
+﻿namespace ApplicationModels.Responses
 {
     public class CustomerResult
     {
