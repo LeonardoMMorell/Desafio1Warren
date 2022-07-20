@@ -5,7 +5,7 @@ namespace Application.Validators.ValidationExtensions
 {
     public static class ValidationExtensions
     {
-        public static bool IsValidFullname(this string fullname)
+        public static bool IsValidFullName(this string fullname)
         {
             string[] stringLimiting = fullname.Split(' ');
 

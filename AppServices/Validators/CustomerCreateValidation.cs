@@ -13,7 +13,7 @@ namespace Application.Validators
             RuleFor(x => x.FullName)
                 .NotEmpty()
                 .NotNull()
-                .Must(x => x.IsValidFullname())
+                .Must(x => x.IsValidFullName())
                 .MaximumLength(300)
                 .MinimumLength(2);
 
