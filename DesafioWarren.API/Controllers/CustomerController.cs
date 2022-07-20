@@ -33,10 +33,9 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var IdProtection = _customerAppService.GetById(id);
-                return IdProtection is null
-                    ? NotFound($"Client not found! for id: {id}")
-                    : Ok(IdProtection);
+                return _customerAppService.GetBy(x => x.Id == id) is null
+                    ? NotFound($"Client not found! For Id: {id}")
+                    : Ok(_customerAppService.GetBy(x => x.Id == id));
             });
         }
 
@@ -45,10 +44,9 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var fullnameProtection = _customerAppService.GetAllByFullname(fullName);
-                return fullnameProtection.FirstOrDefault() is null
+                return !_customerAppService.GetAll(x => x.FullName.Contains(fullName)).Any()
                     ? NotFound($"Client not found! For FullName: {fullName}")
-                    : Ok(fullnameProtection);
+                    : Ok(_customerAppService.GetAll(x => x.FullName.Contains(fullName)));
             });
         }
 
@@ -57,10 +55,9 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var emailProtection = _customerAppService.GetByEmail(email);
-                return emailProtection is null
-                    ? NotFound($"Client not found! For Email: {email}")
-                    : Ok(emailProtection);
+                return _customerAppService.GetByEmail(email) is null
+                   ? NotFound($"Client not found! For Email: {email}")
+                   : Ok(_customerAppService.GetByEmail(email));
             });
         }
 
@@ -69,10 +66,9 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var cpfProtection = _customerAppService.GetByCpf(cpf);
-                return cpfProtection is null
-                    ? NotFound($"Client not found! For CPF: {cpf}")
-                    : Ok(cpfProtection);
+                return _customerAppService.GetByCpf(cpf) is null
+                   ? NotFound($"Client not found! For Cpf: {cpf}")
+                   : Ok(_customerAppService.GetByCpf(cpf));
             });
         }
 

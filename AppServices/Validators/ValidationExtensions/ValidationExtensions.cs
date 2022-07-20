@@ -5,11 +5,11 @@ namespace Application.Validators.ValidationExtensions
 {
     public static class ValidationExtensions
     {
-        public static bool IsValidFullname(this string completFullname)
+        public static bool IsValidFullname(this string fullname)
         {
-            string[] stringLimiting = completFullname.Split(' ');
+            string[] stringLimiting = fullname.Split(' ');
 
-            if (IsValidString(completFullname)) return false;
+            if (IsValidString(fullname)) return false;
 
             return stringLimiting.Length > 1 && stringLimiting.Length < 7;
         }
