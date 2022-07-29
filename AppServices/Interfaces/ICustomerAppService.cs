@@ -3,6 +3,7 @@ using ApplicationModels.Responses;
 using DomainModels;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Application.Interfaces
 {
@@ -10,11 +11,11 @@ namespace Application.Interfaces
     {
         (bool validation, string errorMessage) Add(CreateCustomerRequest model);
         bool Delete(int id);
-        IEnumerable<CustomerResult> GetAll(Predicate<Customer> predicate);
-        CustomerResult GetBy(Func<Customer, bool> predicate);
+        IEnumerable<CustomerResult> GetAll(Expression<Func<Customer, bool>> predicates);
+        IEnumerable<CustomerResult> GetAllByFullname(string fullname);
+        CustomerResult GetBy(Expression<Func<Customer, bool>> predicates);
         CustomerResult GetByCpf(string cpf);
         CustomerResult GetByEmail(string email);
-        IEnumerable<CustomerResult> GetAllByFullname(string fullname);
         CustomerResult GetById(int id);
         public (bool validation, string errorMessage) Update(int id, UpdateCustomerRequest customerDtoUpdated);
     }

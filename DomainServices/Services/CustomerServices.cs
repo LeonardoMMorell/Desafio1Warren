@@ -1,74 +1,94 @@
 ﻿using DomainModels;
 using DomainServices.Interfaces;
+using EntityFrameworkCore.UnitOfWork.Interfaces;
 using Infrastructure.Data.Context;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq.Expressions;
 
 namespace DomainServices
 {
     public class CustomerServices : ICustomerServices
     {
-        private readonly DatabaseDbContext _dbContext;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CustomerServices(DatabaseDbContext dbContext)
+        private readonly IRepositoryFactory _repositoryFactory;
+
+        public CustomerServices(IUnitOfWork<DatabaseContext> unitOfWork, IRepositoryFactory<DatabaseContext> repositoryFactory)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            _repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
         }
 
-        public IEnumerable<Customer> GetAll(Predicate<Customer> predicate = null)
+        public IEnumerable<Customer> GetAll(Expression<Func<Customer, bool>> predicates)
         {
-            if (predicate is null) return _dbContext.Customers;
-            return _dbContext.Customers.AsEnumerable();
+            var repository = _repositoryFactory.Repository<Customer>();
+
+            var query = repository.MultipleResultQuery();
+            query.AndFilter(predicates);
+
+            return repository.Search(query);
         }
 
-        public Customer GetBy(Func<Customer, bool> predicate)
+        public Customer GetBy(Expression<Func<Customer, bool>> predicates)
         {
-            var customer = _dbContext.Customers.AsNoTracking().FirstOrDefault(predicate);
-            return customer;
+            var repository = _repositoryFactory.Repository<Customer>();
+
+            var query = repository.SingleResultQuery();
+            query.AndFilter(predicates);
+
+            return repository.FirstOrDefault(query);
         }
 
         public (bool validation, string errorMessage) Add(Customer customer)
         {
+            var repository = _unitOfWork.Repository<Customer>();
+
             var method = CheckIfExists(customer);
             if (method.exists) return (false, method.errorMessage);
 
-            _dbContext.Customers.Add(customer);
-            _dbContext.SaveChanges();
+            repository.Add(customer);
+            _unitOfWork.SaveChanges();
             return (true, customer.Id.ToString());
         }
 
         public bool Delete(int id)
         {
+            var repository = _unitOfWork.Repository<Customer>();
+
             var variableDelete = GetBy(c => c.Id == id);
             if (variableDelete == null) return false;
-            _dbContext.Customers.Remove(variableDelete);
-            _dbContext.SaveChanges();
+
+            repository.Remove(variableDelete);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
         public (bool validation, string errorMessage) Update (Customer customerUpdated)
         {
+            var repository = _unitOfWork.Repository<Customer>();
+
             var customerVerify = CheckIfExists(customerUpdated);
             if (customerVerify.exists) return (false, customerVerify.errorMessage);
 
             var customerFound = GetBy(x => x.Id == customerUpdated.Id);
             if (customerFound is null) return (false, $"Customer not found for Id: {customerUpdated.Id}");
 
-            _dbContext.Customers.Update(customerUpdated);
-            _dbContext.SaveChanges();
+            repository.Update(customerUpdated);
+            _unitOfWork.SaveChanges();
             return (true, customerUpdated.Id.ToString());
         }
 
         private (bool exists, string errorMessage) CheckIfExists(Customer customer)
         {
+            var repository = _repositoryFactory.Repository<Customer>();
+
             var messageTemplate = "Customer exists for {0}: {1}";
-            if (_dbContext.Customers.Any(x => x.Email.Equals(customer.Email)))
+            if (repository.Any(x => x.Email.Equals(customer.Email)))
             {
                 return (true, string.Format(messageTemplate, "Email", customer.Email));
             }
-            if (_dbContext.Customers.Any(x => x.Cpf.Equals(customer.Cpf)))
+            if (repository.Any(x => x.Cpf.Equals(customer.Cpf)))
             {
                 return (true, string.Format(messageTemplate, "Cpf", customer.Cpf));
             }

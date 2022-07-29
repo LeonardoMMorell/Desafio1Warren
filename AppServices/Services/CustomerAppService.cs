@@ -6,6 +6,7 @@ using DomainModels;
 using DomainServices.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Application.Services
 {
@@ -21,15 +22,15 @@ namespace Application.Services
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public IEnumerable<CustomerResult> GetAll(Predicate<Customer> predicate = null)
+        public IEnumerable<CustomerResult> GetAll(Expression<Func<Customer, bool>> predicates)
         {
-            var customer = _customerServices.GetAll();
+            var customer = _customerServices.GetAll(null);
             return _mapper.Map<IEnumerable<CustomerResult>>(customer);
         }
 
-        public CustomerResult GetBy(Func<Customer, bool> predicate)
+        public CustomerResult GetBy(Expression<Func<Customer, bool>> predicates)
         {
-            var customer = _customerServices.GetBy(predicate);
+            var customer = _customerServices.GetBy(predicates);
             return _mapper.Map<CustomerResult>(customer);
         }
 
