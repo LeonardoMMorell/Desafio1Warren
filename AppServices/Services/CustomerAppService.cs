@@ -22,7 +22,7 @@ namespace Application.Services
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public IEnumerable<CustomerResult> GetAll(Expression<Func<Customer, bool>> predicates)
+        public IEnumerable<CustomerResult> GetAll()
         {
             var customer = _customerServices.GetAll();
             return _mapper.Map<IEnumerable<CustomerResult>>(customer);
