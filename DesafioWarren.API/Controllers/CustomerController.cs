@@ -88,9 +88,11 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                return _customerAppService.Update(id, customerUp).validation
+                var updatedCustomer = _customerAppService.Update(id, customerUp);
+                return updatedCustomer.validation
                     ? Ok()
-                    : NotFound(_customerAppService.Update(id, customerUp).errorMessage);
+                    : NotFound(updatedCustomer.errorMessage);
+
             });
         }
 

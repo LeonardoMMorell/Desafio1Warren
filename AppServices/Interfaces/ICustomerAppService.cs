@@ -13,7 +13,7 @@ namespace Application.Interfaces
         bool Delete(int id);
         IEnumerable<CustomerResult> GetAll(Expression<Func<Customer, bool>> predicates);
         IEnumerable<CustomerResult> GetAllByFullname(string fullname);
-        CustomerResult GetBy(Expression<Func<Customer, bool>> predicates);
+        CustomerResult GetBy(Expression<Func<Customer, bool>> predicates = null);
         CustomerResult GetByCpf(string cpf);
         CustomerResult GetByEmail(string email);
         CustomerResult GetById(int id);

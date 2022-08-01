@@ -11,7 +11,6 @@ namespace DomainServices
     public class CustomerServices : ICustomerServices
     {
         private readonly IUnitOfWork _unitOfWork;
-
         private readonly IRepositoryFactory _repositoryFactory;
 
         public CustomerServices(IUnitOfWork<DatabaseContext> unitOfWork, IRepositoryFactory<DatabaseContext> repositoryFactory)
@@ -20,7 +19,7 @@ namespace DomainServices
             _repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
         }
 
-        public IEnumerable<Customer> GetAll(Expression<Func<Customer, bool>> predicates)
+        public IEnumerable<Customer> GetAll(Expression<Func<Customer, bool>> predicates = null)
         {
             var repository = _repositoryFactory.Repository<Customer>();
 
@@ -30,12 +29,12 @@ namespace DomainServices
             return repository.Search(query);
         }
 
-        public Customer GetBy(Expression<Func<Customer, bool>> predicates)
+        public Customer GetBy(Expression<Func<Customer, bool>> predicate)
         {
             var repository = _repositoryFactory.Repository<Customer>();
 
-            var query = repository.SingleResultQuery();
-            query.AndFilter(predicates);
+            var query = repository.SingleResultQuery()
+                .AndFilter(predicate);
 
             return repository.FirstOrDefault(query);
         }
@@ -56,12 +55,7 @@ namespace DomainServices
         {
             var repository = _unitOfWork.Repository<Customer>();
 
-            var variableDelete = GetBy(c => c.Id == id);
-            if (variableDelete == null) return false;
-
-            repository.Remove(variableDelete);
-            _unitOfWork.SaveChanges();
-            return true;
+            return repository.Remove(x => x.Id.Equals(id)) > 0;
         }
 
         public (bool validation, string errorMessage) Update (Customer customerUpdated)
