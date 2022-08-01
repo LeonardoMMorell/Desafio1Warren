@@ -11,7 +11,7 @@ namespace Application.Interfaces
     {
         (bool validation, string errorMessage) Add(CreateCustomerRequest model);
         bool Delete(int id);
-        IEnumerable<CustomerResult> GetAll(Expression<Func<Customer, bool>> predicates);
+        IEnumerable<CustomerResult> GetAll();
         IEnumerable<CustomerResult> GetAllByFullname(string fullname);
         CustomerResult GetBy(Expression<Func<Customer, bool>> predicates = null);
         CustomerResult GetByCpf(string cpf);
