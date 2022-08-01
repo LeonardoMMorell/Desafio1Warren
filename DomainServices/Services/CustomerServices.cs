@@ -23,8 +23,8 @@ namespace DomainServices
         {
             var repository = _repositoryFactory.Repository<Customer>();
 
-            var query = repository.MultipleResultQuery();
-            query.AndFilter(predicates);
+            var query = repository.MultipleResultQuery()
+                .AndFilter(predicates);
 
             return repository.Search(query);
         }
