@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
 using Application.Interfaces;
+using System.Linq;
+using DomainModels;
 
 namespace DesafioWarren.API.Controllers
 {
@@ -23,7 +24,7 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var customers = _customerAppService.GetAll(null);
+                var customers = _customerAppService.GetAll();
                 return Ok(customers);
             }); 
         }
@@ -39,14 +40,15 @@ namespace DesafioWarren.API.Controllers
             });
         }
 
-        [HttpGet("getByFullName/{fullname}")]
+        [HttpGet("getByFullName/{fullName}")]
         public IActionResult GetByFullName(string fullName)
         {
             return SafeAction(() =>
             {
-                return !_customerAppService.GetAll(x => x.FullName.Contains(fullName)).Any()
-                    ? NotFound($"Client not found! For FullName: {fullName}")
-                    : Ok(_customerAppService.GetAll(x => x.FullName.Contains(fullName)));
+                var customer = _customerAppService.GetAllByFullname(fullName);
+                return customer.Any()
+                    ? Ok(customer)
+                    : NotFound($"Client not found! For FullName: {fullName}");
             });
         }
 

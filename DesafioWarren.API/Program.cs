@@ -10,6 +10,7 @@ using Infrastructure.Data.Context;
 using Application.Services;
 using Application.Interfaces;
 using DomainServices.Interfaces;
+using EntityFrameworkCore.UnitOfWork.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,7 @@ var assembly = Assembly.Load("Application");
 builder.Services
     .AddControllers(); 
 
-builder.Services.AddDbContext<DatabaseDbContext>(options =>
+builder.Services.AddDbContext<DatabaseContext>(options =>
 {
     options.UseMySql(
         builder.Configuration.GetConnectionString("Default"),
@@ -29,12 +30,14 @@ builder.Services.AddDbContext<DatabaseDbContext>(options =>
 builder.Services.AddFluentValidation(config => config.RegisterValidatorsFromAssembly(assembly));
 
 builder.Services.AddTransient<ICustomerServices, CustomerServices>();
+builder.Services.AddTransient<DbContext, DatabaseContext>();
 builder.Services.AddTransient<ICustomerAppService, CustomerAppService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(mapperConfig => mapperConfig.AddMaps(assembly), assembly);
+builder.Services.AddUnitOfWork<DatabaseContext>();
 
 var app = builder.Build();
 
