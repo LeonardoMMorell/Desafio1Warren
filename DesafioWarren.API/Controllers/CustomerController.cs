@@ -45,8 +45,9 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                return _customerAppService.GetAllByFullname(fullName).Any()
-                    ? Ok(_customerAppService.GetAllByFullname(fullName))
+                var customer = _customerAppService.GetAllByFullname(fullName);
+                return customer.Any()
+                    ? Ok(customer)
                     : NotFound($"Client not found! For FullName: {fullName}");
             });
         }
@@ -92,7 +93,6 @@ namespace DesafioWarren.API.Controllers
                 return updatedCustomer.validation
                     ? Ok()
                     : NotFound(updatedCustomer.errorMessage);
-
             });
         }
 
