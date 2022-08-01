@@ -24,7 +24,7 @@ namespace DesafioWarren.API.Controllers
         {
             return SafeAction(() =>
             {
-                var customers = _customerAppService.GetAll(null);
+                var customers = _customerAppService.GetAll();
                 return Ok(customers);
             }); 
         }
