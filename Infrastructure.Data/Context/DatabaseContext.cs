@@ -13,6 +13,7 @@ namespace Infrastructure.Data.Context
             ChangeTracker.AutoDetectChangesEnabled = false;
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
+
         public override int SaveChanges()
         {
             var addedEntities = this.DetectChanges(EntityState.Added);
