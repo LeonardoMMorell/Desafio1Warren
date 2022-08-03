@@ -1,4 +1,4 @@
-﻿using DomainModels;
+﻿using DomainModels.Entities;
 using EntityFrameworkCore.AutoHistory.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
