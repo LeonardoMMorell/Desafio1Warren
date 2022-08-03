@@ -2,7 +2,7 @@
 using ApplicationModels.Requests;
 using ApplicationModels.Responses;
 using AutoMapper;
-using DomainModels;
+using DomainModels.Entities;
 using DomainServices.Interfaces;
 using System;
 using System.Collections.Generic;

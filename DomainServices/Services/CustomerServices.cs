@@ -1,4 +1,4 @@
-﻿using DomainModels;
+﻿using DomainModels.Entities;
 using DomainServices.Interfaces;
 using EntityFrameworkCore.UnitOfWork.Interfaces;
 using Infrastructure.Data.Context;

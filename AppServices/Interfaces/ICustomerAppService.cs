@@ -1,6 +1,6 @@
 ﻿using ApplicationModels.Requests;
 using ApplicationModels.Responses;
-using DomainModels;
+using DomainModels.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;

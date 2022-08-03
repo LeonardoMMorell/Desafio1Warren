@@ -1,7 +1,7 @@
 ﻿using ApplicationModels.Requests;
 using ApplicationModels.Responses;
 using AutoMapper;
-using DomainModels;
+using DomainModels.Entities;
 
 namespace Application.Profiles
 {

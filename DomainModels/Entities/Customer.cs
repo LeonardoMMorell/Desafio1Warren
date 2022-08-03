@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DomainModels
+namespace DomainModels.Entities
 {
     public class Customer
     {
